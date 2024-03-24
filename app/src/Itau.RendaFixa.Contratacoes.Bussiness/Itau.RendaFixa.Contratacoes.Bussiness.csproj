@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="UseCases\AlterarContratante\" />
+    <Folder Include="UseCases\AlterarNomeProduto\" />
+    <Folder Include="UseCases\ConsultarProdutos\Contracts\" />
+    <Folder Include="UseCases\ConsultarProdutos\ViewModels\" />
+    <Folder Include="UseCases\CriarContratante\" />
+    <Folder Include="UseCases\CriarNovoProduto\" />
+    <Folder Include="UseCases\DesabilitarContratante\" />
+    <Folder Include="UseCases\DesistirContratacao\" />
+    <Folder Include="UseCases\HabilitarContratante\" />
+    <Folder Include="UseCases\ValidarPagamentoIntegral\" />
+    <Folder Include="UseCases\RealizarPagamento\" />
+    <Folder Include="UseCases\RealizarContratacao\" />
+  </ItemGroup>
+
+</Project>
