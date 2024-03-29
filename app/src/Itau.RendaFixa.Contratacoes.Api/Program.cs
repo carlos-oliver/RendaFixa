@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("ContratacaoRendaFixa");
 
-builder.Services.AddDbContext<TipoProdutoContext>(opts =>
+builder.Services.AddDbContext<ContratacoesContext>(opts =>
     opts.UseNpgsql(connectionString));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

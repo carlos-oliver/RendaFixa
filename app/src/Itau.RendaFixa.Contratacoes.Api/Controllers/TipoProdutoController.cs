@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using Itau.RendaFixa.Contratacoes.Api.Data;
-using Itau.RendaFixa.Contratacoes.Api.Data.Dtos;
 using Itau.RendaFixa.Contratacoes.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Net;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
 {
@@ -12,17 +9,16 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
     [Route("[controller]")]
     public class TipoProdutoController : ControllerBase
     {
-        private TipoProdutoContext _context;
+        private ContratacoesContext _context;
         private IMapper _mapper;
 
-        public TipoProdutoController(TipoProdutoContext context, IMapper mapper)
+        public TipoProdutoController(ContratacoesContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult RecuperarTipoP()
         {
             var tipoProdutos = _context.TipoProdutos.ToList();
@@ -32,7 +28,7 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
             {
                 Data = tipoProdutosDto
             };
-
+            if (tipoProdutosDto.Count == 0 ) { return NoContent(); };
             return Ok(response);
         }
 

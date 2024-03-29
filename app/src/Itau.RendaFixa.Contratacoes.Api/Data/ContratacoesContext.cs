@@ -3,13 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Data
 {
-    public class TipoProdutoContext : DbContext
+    public class ContratacoesContext : DbContext
     {
-        public TipoProdutoContext(DbContextOptions<TipoProdutoContext> opts) : base(opts) 
+        public ContratacoesContext(DbContextOptions<ContratacoesContext> opts) : base(opts) 
         {
 
         }
-
         public DbSet<TipoProdutoDto> TipoProdutos { get; set; }
     }
 

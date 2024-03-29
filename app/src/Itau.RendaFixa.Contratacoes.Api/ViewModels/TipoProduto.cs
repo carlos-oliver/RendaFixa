@@ -6,6 +6,6 @@ namespace Itau.RendaFixa.Contratacoes.Api.ViewModels
     public class TipoProduto
     {
         [Key]
-        public string Nome { get; set; }
+        public string ?Nome { get; set; }
     }
 }
