@@ -9,6 +9,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Profiles
         public ContratacoesProfile()
         {
             CreateMap<TipoProdutoDto, TipoProduto>();
+            CreateMap<ProdutosDto, Produtos>();
         }
     }
 }

@@ -20,8 +20,4 @@
     <ProjectReference Include="..\Itau.RendaFixa.Contratacoes.Infrastructure\Itau.RendaFixa.Contratacoes.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
 </Project>

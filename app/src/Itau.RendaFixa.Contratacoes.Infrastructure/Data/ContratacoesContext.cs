@@ -15,6 +15,7 @@ namespace Itau.RendaFixa.Contratacoes.Infrastructure.Data
 
         }
         public DbSet<TipoProdutoDto> ?TipoProdutos { get; set; }
+        public DbSet<ProdutosDto> ?Produtos { get; set; }
     }
 
 }

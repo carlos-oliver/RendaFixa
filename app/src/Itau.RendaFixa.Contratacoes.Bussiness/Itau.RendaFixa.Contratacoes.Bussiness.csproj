@@ -10,7 +10,7 @@
   <ItemGroup>
     <Folder Include="UseCases\AlterarContratante\" />
     <Folder Include="UseCases\AlterarNomeProduto\" />
-    <Folder Include="UseCases\ConsultarProdutos\Contracts\" />
+    <Folder Include="UseCases\ConsultarTipoProdutos\Contracts\" />
     <Folder Include="UseCases\CriarContratante\" />
     <Folder Include="UseCases\CriarNovoProduto\" />
     <Folder Include="UseCases\DesabilitarContratante\" />

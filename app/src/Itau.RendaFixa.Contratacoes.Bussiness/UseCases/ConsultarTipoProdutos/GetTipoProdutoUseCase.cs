@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
 using Itau.RendaFixa.Contratacoes.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels
+namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos
 {
     public class GetTipoProdutoUseCase : IGetTipoProduto
     {
@@ -18,7 +20,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewM
 
         public async Task<ApiResponse<List<TipoProduto>>> ExecuteAsync()
         {
-            var tipoProdutos = await _context.TipoProdutos.ToListAsync();
+            var tipoProdutos = await _context.TipoProdutos!.ToListAsync();
             var tipoProdutosDto = _mapper.Map<List<TipoProduto>>(tipoProdutos);
 
             var response = new ApiResponse<List<TipoProduto>>

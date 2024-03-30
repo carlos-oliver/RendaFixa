@@ -1,5 +1,5 @@
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
-using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos;
 using Itau.RendaFixa.Contratacoes.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +13,7 @@ builder.Services.AddDbContext<ContratacoesContext>(opts =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IGetTipoProduto, GetTipoProdutoUseCase>();
+builder.Services.AddScoped<IConsultarProdutoUseCase, ConsultarProdutoUseCase>();
 
 // Add services to the container.
 

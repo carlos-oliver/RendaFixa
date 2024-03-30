@@ -16,7 +16,7 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RecuperarTipoP()
+        public async Task<IActionResult> RecuperarTipoProduto()
         {
             var result = await _getTipoProdutoUseCase.ExecuteAsync();
 
