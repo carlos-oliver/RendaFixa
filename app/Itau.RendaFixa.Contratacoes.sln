@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Itau.RendaFixa.Contratacoes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Itau.RendaFixa.Contratacoes.Api", "src\Itau.RendaFixa.Contratacoes.Api\Itau.RendaFixa.Contratacoes.Api.csproj", "{36014C4E-C897-4EF2-B7BB-C15354BBF70C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itau.RendaFixa.Contratacoes.Infrastructure", "src\Itau.RendaFixa.Contratacoes.Infrastructure\Itau.RendaFixa.Contratacoes.Infrastructure.csproj", "{BFB61CF3-95D4-4762-86B5-2FC6CEB64F72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{36014C4E-C897-4EF2-B7BB-C15354BBF70C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36014C4E-C897-4EF2-B7BB-C15354BBF70C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36014C4E-C897-4EF2-B7BB-C15354BBF70C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFB61CF3-95D4-4762-86B5-2FC6CEB64F72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFB61CF3-95D4-4762-86B5-2FC6CEB64F72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFB61CF3-95D4-4762-86B5-2FC6CEB64F72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFB61CF3-95D4-4762-86B5-2FC6CEB64F72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{8DAF1F22-C9B6-4E80-AA74-3CDC8A8C9645} = {5A0347B2-DE76-4669-9D72-1A3EFBEAF6AB}
 		{5FD2A6FB-F211-4C16-829A-37456C86964E} = {5A0347B2-DE76-4669-9D72-1A3EFBEAF6AB}
 		{36014C4E-C897-4EF2-B7BB-C15354BBF70C} = {DE8835BE-C314-4BCA-8D40-D309D2B3196B}
+		{BFB61CF3-95D4-4762-86B5-2FC6CEB64F72} = {DE8835BE-C314-4BCA-8D40-D309D2B3196B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2171350C-1108-4113-A0F0-667033832A16}

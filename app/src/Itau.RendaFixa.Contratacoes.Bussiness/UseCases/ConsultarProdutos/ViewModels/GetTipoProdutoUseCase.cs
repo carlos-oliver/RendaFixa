@@ -1,14 +1,14 @@
-﻿
-using AutoMapper;
-using Itau.RendaFixa.Contratacoes.Api.Data;
+﻿using AutoMapper;
+using Itau.RendaFixa.Contratacoes.Bussiness.Models;
+using Itau.RendaFixa.Contratacoes.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Itau.RendaFixa.Contratacoes.Api.ViewModels
+namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels
 {
     public class GetTipoProdutoUseCase : IGetTipoProduto
     {
-        private ContratacoesContext _context;
-        private IMapper _mapper;
+        private readonly ContratacoesContext _context;
+        private readonly IMapper _mapper;
 
         public GetTipoProdutoUseCase(ContratacoesContext context, IMapper mapper)
         {

@@ -1,4 +1,4 @@
-﻿namespace Itau.RendaFixa.Contratacoes.Api.ViewModels
+﻿namespace Itau.RendaFixa.Contratacoes.Bussiness.Models
 {
     public class ApiResponse<T>
     {

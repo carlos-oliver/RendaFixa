@@ -1,4 +1,4 @@
-﻿using Itau.RendaFixa.Contratacoes.Api.ViewModels;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Microsoft.AspNetCore.Mvc;
 
 

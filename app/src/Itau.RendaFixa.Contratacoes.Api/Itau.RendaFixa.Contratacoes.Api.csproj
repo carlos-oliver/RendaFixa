@@ -15,4 +15,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Itau.RendaFixa.Contratacoes.Bussiness\Itau.RendaFixa.Contratacoes.Bussiness.csproj" />
+    <ProjectReference Include="..\Itau.RendaFixa.Contratacoes.Infrastructure\Itau.RendaFixa.Contratacoes.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

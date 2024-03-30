@@ -1,5 +1,6 @@
-using Itau.RendaFixa.Contratacoes.Api.Data;
-using Itau.RendaFixa.Contratacoes.Api.ViewModels;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
+using Itau.RendaFixa.Contratacoes.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

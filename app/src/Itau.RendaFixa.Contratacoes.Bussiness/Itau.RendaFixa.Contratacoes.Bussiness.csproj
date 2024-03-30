@@ -11,7 +11,6 @@
     <Folder Include="UseCases\AlterarContratante\" />
     <Folder Include="UseCases\AlterarNomeProduto\" />
     <Folder Include="UseCases\ConsultarProdutos\Contracts\" />
-    <Folder Include="UseCases\ConsultarProdutos\ViewModels\" />
     <Folder Include="UseCases\CriarContratante\" />
     <Folder Include="UseCases\CriarNovoProduto\" />
     <Folder Include="UseCases\DesabilitarContratante\" />
@@ -20,6 +19,14 @@
     <Folder Include="UseCases\ValidarPagamentoIntegral\" />
     <Folder Include="UseCases\RealizarPagamento\" />
     <Folder Include="UseCases\RealizarContratacao\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Itau.RendaFixa.Contratacoes.Infrastructure\Itau.RendaFixa.Contratacoes.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
