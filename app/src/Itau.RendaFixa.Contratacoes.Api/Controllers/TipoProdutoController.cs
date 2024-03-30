@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using Itau.RendaFixa.Contratacoes.Api.Data;
-using Itau.RendaFixa.Contratacoes.Api.ViewModels;
+﻿using Itau.RendaFixa.Contratacoes.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
 {
@@ -9,27 +8,20 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
     [Route("[controller]")]
     public class TipoProdutoController : ControllerBase
     {
-        private ContratacoesContext _context;
-        private IMapper _mapper;
+        private readonly IGetTipoProduto _getTipoProdutoUseCase;
 
-        public TipoProdutoController(ContratacoesContext context, IMapper mapper)
+        public TipoProdutoController(IGetTipoProduto getTipoProdutoUseCase)
         {
-            _context = context;
-            _mapper = mapper;
+            _getTipoProdutoUseCase = getTipoProdutoUseCase;
         }
 
         [HttpGet]
-        public IActionResult RecuperarTipoP()
+        public async Task<IActionResult> RecuperarTipoP()
         {
-            var tipoProdutos = _context.TipoProdutos.ToList();
-            var tipoProdutosDto = _mapper.Map<List<TipoProduto>>(tipoProdutos);
+            var result = await _getTipoProdutoUseCase.ExecuteAsync();
 
-            var response = new ApiResponse<List<TipoProduto>>
-            {
-                Data = tipoProdutosDto
-            };
-            if (tipoProdutosDto.Count == 0 ) { return NoContent(); };
-            return Ok(response);
+            if (result?.Data?.Count == 0 ) { return NoContent(); };
+            return Ok(result);
         }
 
     }

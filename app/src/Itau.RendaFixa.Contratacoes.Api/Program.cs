@@ -1,4 +1,5 @@
 using Itau.RendaFixa.Contratacoes.Api.Data;
+using Itau.RendaFixa.Contratacoes.Api.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddDbContext<ContratacoesContext>(opts =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddScoped<IGetTipoProduto, GetTipoProdutoUseCase>();
 
 // Add services to the container.
 
