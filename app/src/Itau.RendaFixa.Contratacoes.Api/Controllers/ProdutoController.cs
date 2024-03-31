@@ -1,5 +1,6 @@
 ﻿using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
 {
@@ -15,9 +16,9 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery] string? nome)
+        public async Task<IActionResult> GetAsync([FromQuery] string? nome, int take = 50)
         {
-            var produtos = await _consultarProdutoUseCase.ObterProdutoAsync(nome);
+            var produtos = await _consultarProdutoUseCase.ObterProdutoAsync(nome!, take);
             return Ok(produtos);
         }
 

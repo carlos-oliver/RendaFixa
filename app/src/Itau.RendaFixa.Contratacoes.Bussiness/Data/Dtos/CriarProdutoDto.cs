@@ -8,11 +8,16 @@ using System.Threading.Tasks;
 
 namespace Itau.RendaFixa.Contratacoes.Infrastructure.Data.Dtos
 {
-    [Table("tipos_produtos")]
-    public class TipoProdutoDto
+    [Table("produtos")]
+    public class CriarProdutoDto
     {
-        [Key]
+        [Column("id_tipo_produto")]
+        public int IdTipoProduto { get; set; }
+
         [Column("nome")]
-        public string ?Nome { get; set; }
+        public string Nome { get; set; }
+
+        [Column("bloqueado")]
+        public bool Bloqueado { get; set; }   
     }
 }

@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
+using Itau.RendaFixa.Contratacoes.Bussiness.Data;
+using Itau.RendaFixa.Contratacoes.Bussiness.Data.Dtos;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
-using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
-using Itau.RendaFixa.Contratacoes.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
-using System.Linq;
+
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
 {
@@ -19,15 +18,16 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<IEnumerable<Produtos>>> ObterProdutoAsync(string nome)
+        public async Task<ApiResponse<IEnumerable<ProdutosDto>>> ObterProdutoAsync(string nome, int take)
         {
-            var produtosList = await _context.Produtos
+            var produtosList = await _context.Produtos!
                  .Where(p => string.IsNullOrEmpty(nome) || p.Nome == nome)
+                 .Take(take)
                  .ToListAsync();
 
-            var produtosDto = _mapper.Map<IEnumerable<Produtos>>(produtosList);
+            var produtosDto = _mapper.Map<IEnumerable<ProdutosDto>>(produtosList);
 
-            var response = new ApiResponse<IEnumerable<Produtos>>
+            var response = new ApiResponse<IEnumerable<ProdutosDto>>
             {
                 Data = produtosDto
             };

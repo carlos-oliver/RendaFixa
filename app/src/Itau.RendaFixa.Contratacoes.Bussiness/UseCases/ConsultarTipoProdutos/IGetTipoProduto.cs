@@ -1,10 +1,10 @@
-﻿using Itau.RendaFixa.Contratacoes.Bussiness.Models;
-using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.Data.Dtos;
+using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
 {
     public interface IGetTipoProduto
     {
-        Task<ApiResponse<List<TipoProduto>>> ExecuteAsync();
+        Task<ApiResponse<List<TipoProdutoDto>>> ExecuteAsync();
     }
 }

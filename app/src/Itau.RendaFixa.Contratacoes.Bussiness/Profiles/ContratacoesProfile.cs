@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
-using Itau.RendaFixa.Contratacoes.Infrastructure.Data.Dtos;
+using Itau.RendaFixa.Contratacoes.Bussiness.Data.Dtos;
+using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.Profiles
 {
@@ -8,8 +8,8 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Profiles
     {
         public ContratacoesProfile()
         {
-            CreateMap<TipoProdutoDto, TipoProduto>();
-            CreateMap<ProdutosDto, Produtos>();
+            CreateMap<TipoProduto, TipoProdutoDto>();
+            CreateMap<Produtos, ProdutosDto>();
         }
     }
 }
