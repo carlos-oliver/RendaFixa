@@ -5,6 +5,6 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
 {
     public interface IConsultarProdutoUseCase
     {
-        Task<ApiResponse<IEnumerable<ProdutosDto>>> ObterProdutoAsync(string nome, int take);
+        Task<ApiResponse<IEnumerable<ProdutosDto>>> ObterProdutoAsync(string? nome, int take);
     }
 }

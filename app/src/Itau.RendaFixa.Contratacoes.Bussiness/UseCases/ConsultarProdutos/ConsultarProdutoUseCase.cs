@@ -18,14 +18,17 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<IEnumerable<ProdutosDto>>> ObterProdutoAsync(string nome, int take)
+        public async Task<ApiResponse<IEnumerable<ProdutosDto>>> ObterProdutoAsync(string? nome, int take)
         {
-            var produtosList = await _context.Produtos!
-                 .Where(p => string.IsNullOrEmpty(nome) || p.Nome == nome)
-                 .Take(take)
-                 .ToListAsync();
 
-            var produtosDto = _mapper.Map<IEnumerable<ProdutosDto>>(produtosList);
+            var query = _context.Produtos.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(nome))
+                query = query.Where(x => x.Nome.Equals(nome, StringComparison.OrdinalIgnoreCase));
+
+            var produtos = query.Take(take).ToListAsync();
+          
+            var produtosDto = _mapper.Map<IEnumerable<ProdutosDto>>(produtos);
 
             var response = new ApiResponse<IEnumerable<ProdutosDto>>
             {
