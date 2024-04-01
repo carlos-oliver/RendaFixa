@@ -1,9 +1,7 @@
 ﻿using Itau.RendaFixa.Contratacoes.Bussiness.Data.Dtos;
-using Itau.RendaFixa.Contratacoes.Bussiness.Filters;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
 {

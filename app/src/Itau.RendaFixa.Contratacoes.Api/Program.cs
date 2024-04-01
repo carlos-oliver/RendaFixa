@@ -14,7 +14,7 @@ builder.Services.AddDbContext<ContratacoesContext>(opts =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddScoped<IGetTipoProduto, GetTipoProdutoUseCase>();
+builder.Services.AddScoped<IObterTipoProdutoUseCase, GetTipoProdutoUseCase>();
 builder.Services.AddScoped<IConsultarProdutoUseCase, ConsultarProdutoUseCase>();
 builder.Services.AddScoped<ICriarProduto, CriarProdutoNovo>();
 

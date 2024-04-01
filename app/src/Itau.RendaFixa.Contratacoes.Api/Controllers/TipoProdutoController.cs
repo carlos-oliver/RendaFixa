@@ -8,21 +8,22 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
     [Route("[controller]")]
     public class TipoProdutoController : ControllerBase
     {
-        private readonly IGetTipoProduto _getTipoProdutoUseCase;
+        private readonly IObterTipoProdutoUseCase  _obterTipoProdutoUseCase;
 
-        public TipoProdutoController(IGetTipoProduto getTipoProdutoUseCase)
+        public TipoProdutoController(IObterTipoProdutoUseCase obterTipoProdutoUseCase)
         {
-            _getTipoProdutoUseCase = getTipoProdutoUseCase;
+            _obterTipoProdutoUseCase = obterTipoProdutoUseCase;
         }
 
         [HttpGet]
-        public async Task<IActionResult> RecuperarTipoProduto()
+        public async Task<IActionResult> RecuperarTipoProdutoAsync(CancellationToken cancellationToken = default)
         {
-            var result = await _getTipoProdutoUseCase.ExecuteAsync();
+            var result = await _obterTipoProdutoUseCase.ExecuteAsync(cancellationToken);
 
-            if (result?.Data?.Count == 0 ) { return NoContent(); };
+            if (result.Data is not null && result.Data.Any()) 
+                return NoContent(); 
+
             return Ok(result);
         }
-
     }
 }
