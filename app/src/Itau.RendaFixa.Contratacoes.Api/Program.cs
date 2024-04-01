@@ -1,6 +1,8 @@
 using Itau.RendaFixa.Contratacoes.Bussiness.Data;
+using Itau.RendaFixa.Contratacoes.Bussiness.Filters;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,12 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IGetTipoProduto, GetTipoProdutoUseCase>();
 builder.Services.AddScoped<IConsultarProdutoUseCase, ConsultarProdutoUseCase>();
+builder.Services.AddScoped<ICriarProduto, CriarProdutoNovo>();
+
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<CustomExceptionFilter>(); // Adicionar o filtro de exceção personalizado
+});
 
 // Add services to the container.
 

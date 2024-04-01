@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Itau.RendaFixa.Contratacoes.Bussiness.Models
 {
     [Table("produtos")]
-    public class Produtos
+    public class Produto
     {
         [Key]
         [Column("id")]
