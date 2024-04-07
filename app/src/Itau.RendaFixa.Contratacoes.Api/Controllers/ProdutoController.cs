@@ -19,9 +19,9 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery] string? nome, int take = 50)
+        public async Task<IActionResult> ObterProdutoAsync([FromQuery] string? nome, int porPagina = 50)
         {
-            var produtos = await _consultarProdutoUseCase.ObterProdutoAsync(nome!, take);
+            var produtos = await _consultarProdutoUseCase.ObterProdutoAsync(nome, porPagina);
             return Ok(produtos);
         }
 

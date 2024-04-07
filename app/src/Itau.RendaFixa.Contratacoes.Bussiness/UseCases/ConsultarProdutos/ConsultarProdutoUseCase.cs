@@ -28,6 +28,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
 
             var produtos = query.Take(take).ToListAsync();
           
+
             var produtosDto = _mapper.Map<IEnumerable<ProdutosDto>>(produtos);
 
             var response = new ApiResponse<IEnumerable<ProdutosDto>>

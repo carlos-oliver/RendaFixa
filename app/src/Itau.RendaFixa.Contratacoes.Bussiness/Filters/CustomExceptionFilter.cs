@@ -16,12 +16,20 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Filters
                     new
                     {
                         code = "APPERRORCODE0000",
-                        nome = "Ocorreu um erro inesperado"
+                        nome = "Ocorreu um erro inesperado",
+                        erro = exception.Message
                     }
                 }
             };
             
             if (context.Exception is DbUpdateException)
+            {
+                context.Result = new ObjectResult(response)
+                {
+                    StatusCode = 500
+                };
+            }
+            else
             {
                 context.Result = new ObjectResult(response)
                 {

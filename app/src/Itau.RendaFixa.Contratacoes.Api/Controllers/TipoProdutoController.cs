@@ -20,10 +20,10 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         {
             var result = await _obterTipoProdutoUseCase.ExecuteAsync(cancellationToken);
 
-            if (result.Data is not null && result.Data.Any()) 
-                return NoContent(); 
+            if (result.Data is not null && result.Data.Any())
+                return Ok(result);
 
-            return Ok(result);
+            return NoContent(); 
         }
     }
 }
