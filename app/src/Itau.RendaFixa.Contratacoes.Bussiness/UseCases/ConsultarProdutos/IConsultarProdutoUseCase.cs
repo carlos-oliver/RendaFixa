@@ -1,10 +1,10 @@
-﻿using Itau.RendaFixa.Contratacoes.Bussiness.Data.Dtos;
-using Itau.RendaFixa.Contratacoes.Bussiness.Models;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.Models;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
 {
     public interface IConsultarProdutoUseCase
     {
-        Task<ApiResponse<IEnumerable<ProdutosDto>>> ObterProdutoAsync(string? nome, int take);
+        Task<ApiResponse<IEnumerable<ConsultarProdutoViewModel>>> ObterProdutoAsync(string? nome, int take, CancellationToken cancellationToken = default);
     }
 }

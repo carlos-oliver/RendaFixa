@@ -16,7 +16,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Models
         public int Id { get; set; }
 
         [Column("id_tipo_produto")]
-        public int IdTipoProduto { get; set; }
+        public int Id_Tipo_Produto { get; set; }
 
         [Column("nome")]
         public string Nome { get; set; }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Itau.RendaFixa.Contratacoes.Bussiness.Data.Dtos
+namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels
 {
-    public class ProdutosDto
+    public class ConsultarProdutoViewModel
     {
         [Key]
         public int Id { get; set; }

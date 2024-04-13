@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Itau.RendaFixa.Contratacoes.Bussiness.Data;
-using Itau.RendaFixa.Contratacoes.Bussiness.Data.Dtos;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
 {
@@ -18,26 +17,24 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<IEnumerable<ProdutosDto>>> ObterProdutoAsync(string? nome, int take)
+        public async Task<ApiResponse<IEnumerable<ConsultarProdutoViewModel>>> ObterProdutoAsync(string? nome, int take, CancellationToken cancellationToken = default)
         {
 
             var query = _context.Produtos.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(nome))
-                query = query.Where(x => x.Nome.Equals(nome, StringComparison.OrdinalIgnoreCase));
+                query = query.AsNoTracking().Where(x => x.Nome.ToLower() == nome.ToLower());
 
-            var produtos = query.Take(take).ToListAsync();
-          
+            var produtos = await query.Take(take).ToListAsync(cancellationToken);       
 
-            var produtosDto = _mapper.Map<IEnumerable<ProdutosDto>>(produtos);
+            var produtosDto = _mapper.Map<IEnumerable<ConsultarProdutoViewModel>>(produtos);
 
-            var response = new ApiResponse<IEnumerable<ProdutosDto>>
+            var response = new ApiResponse<IEnumerable<ConsultarProdutoViewModel>>
             {
                 Data = produtosDto
             };
 
             return response;
-
         }
     }
 }

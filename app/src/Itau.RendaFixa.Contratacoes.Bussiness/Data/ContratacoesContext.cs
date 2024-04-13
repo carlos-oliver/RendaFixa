@@ -1,5 +1,4 @@
-﻿using Itau.RendaFixa.Contratacoes.Bussiness.Data.Dtos;
-using Itau.RendaFixa.Contratacoes.Bussiness.Models;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.Data

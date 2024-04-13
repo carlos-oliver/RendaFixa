@@ -1,6 +1,6 @@
-﻿using Itau.RendaFixa.Contratacoes.Bussiness.Data.Dtos;
-using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarProduto.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
@@ -10,23 +10,23 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
     public class ProdutoController : ControllerBase
     {
         private readonly IConsultarProdutoUseCase _consultarProdutoUseCase;
-        private readonly ICriarProduto _criarProduto;
+        private readonly ICriarProdutoUseCase _criarProduto;
 
-        public ProdutoController(IConsultarProdutoUseCase consultarProdutoUseCase, ICriarProduto criarProduto)
+        public ProdutoController(IConsultarProdutoUseCase consultarProdutoUseCase, ICriarProdutoUseCase criarProduto)
         {
             _consultarProdutoUseCase = consultarProdutoUseCase;
             _criarProduto = criarProduto;
         }
 
         [HttpGet]
-        public async Task<IActionResult> ObterProdutoAsync([FromQuery] string? nome, int porPagina = 50)
+        public async Task<IActionResult> ObterProdutoAsync([FromQuery] string? nome, int porPagina = 50, CancellationToken cancellationToken = default)
         {
-            var produtos = await _consultarProdutoUseCase.ObterProdutoAsync(nome, porPagina);
+            var produtos = await _consultarProdutoUseCase.ObterProdutoAsync(nome, porPagina, cancellationToken);
             return Ok(produtos);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CriarProdutoDto criarProduto)
+        public async Task<IActionResult> CriarProdutoAsync([FromBody] CriarProdutoViewModel criarProduto, CancellationToken cancellationToken = default)
         {
             //try {
             //    _criarProduto.CriarProduto(criarProduto);
@@ -37,7 +37,7 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
             //    return BadRequest(ex.Message);
             //}
 
-            _criarProduto.CriarProduto(criarProduto);
+            await _criarProduto.CriarProduto(criarProduto, cancellationToken);
             return StatusCode(201);
         }
 

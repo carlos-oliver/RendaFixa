@@ -16,7 +16,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IObterTipoProdutoUseCase, ObterTipoProdutoUseCase>();
 builder.Services.AddScoped<IConsultarProdutoUseCase, ConsultarProdutoUseCase>();
-builder.Services.AddScoped<ICriarProduto, CriarProdutoNovo>();
+builder.Services.AddScoped<ICriarProdutoUseCase, CriarProdutoUseCase>();
 
 builder.Services.AddControllers(options =>
 {
