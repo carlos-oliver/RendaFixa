@@ -9,7 +9,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Data
         {
 
         }
-        public DbSet<TipoProduto>? TipoProdutos { get; set; }
-        public DbSet<Produto>? Produtos { get; set; }
+        public DbSet<TipoProduto> TipoProdutos { get; set; }
+        public DbSet<Produto> Produtos { get; set; }
     }
 }

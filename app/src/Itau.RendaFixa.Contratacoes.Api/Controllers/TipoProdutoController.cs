@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class TipoProdutoController : ControllerBase
     {
         private readonly IObterTipoProdutoUseCase  _obterTipoProdutoUseCase;
@@ -15,7 +14,7 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
             _obterTipoProdutoUseCase = obterTipoProdutoUseCase;
         }
 
-        [HttpGet]
+        [HttpGet("tipos_produtos")]
         public async Task<IActionResult> RecuperarTipoProdutoAsync(CancellationToken cancellationToken = default)
         {
             var result = await _obterTipoProdutoUseCase.ExecuteAsync(cancellationToken);

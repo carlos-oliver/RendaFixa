@@ -1,9 +1,12 @@
 using Itau.RendaFixa.Contratacoes.Bussiness.Data;
 using Itau.RendaFixa.Contratacoes.Bussiness.Filters;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IObterTipoProdutoUseCase, ObterTipoProdutoUseCase>();
 builder.Services.AddScoped<IConsultarProdutoUseCase, ConsultarProdutoUseCase>();
 builder.Services.AddScoped<ICriarProdutoUseCase, CriarProdutoUseCase>();
+builder.Services.AddScoped<IAlterarProdutoUseCase, AlterarProdutoUseCase>();
 
 builder.Services.AddControllers(options =>
 {
@@ -26,6 +30,13 @@ builder.Services.AddControllers(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
+//builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

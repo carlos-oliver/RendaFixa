@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="UseCases\AlterarContratante\" />
-    <Folder Include="UseCases\AlterarNomeProduto\" />
     <Folder Include="UseCases\CriarContratante\" />
     <Folder Include="UseCases\DesabilitarContratante\" />
     <Folder Include="UseCases\DesistirContratacao\" />
@@ -22,8 +21,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.IdentityModel" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.29" />
   </ItemGroup>
 
   <ItemGroup>

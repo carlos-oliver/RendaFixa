@@ -23,7 +23,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
             var query = _context.Produtos.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(nome))
-                query = query.AsNoTracking().Where(x => x.Nome.ToLower() == nome.ToLower());
+                query = query.AsNoTracking().Where(x => x.Nome!.ToLower() == nome.ToLower());
 
             var produtos = await query.Take(take).ToListAsync(cancellationToken);       
 
