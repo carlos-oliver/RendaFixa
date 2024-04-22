@@ -1,7 +1,8 @@
-﻿using Itau.RendaFixa.Contratacoes.Bussiness.Data;
-using AutoMapper;
+﻿using AutoMapper;
+using Itau.RendaFixa.Contratacoes.Bussiness.Data;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto.ViewModels;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.EntityFrameworkCore;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto
 {
@@ -15,14 +16,14 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto
             _mapper = mapper;
         }
 
-        public async Task<AlterarProdutoViewModel> AlterarNomeProduto(JsonPatchDocument<AlterarProdutoViewModel> patch, int id)
+        public async Task<AlterarProdutoViewModel> AlterarNomeProduto(JsonPatchDocument<AlterarProdutoViewModel> patch, int id, CancellationToken cancellationToken)
         {
-            var produto = await _context.Produtos.FindAsync(id);
+            var query = _context.Produtos.AsQueryable();
+
+            var produto = await query.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
 
             if (produto == null)
-            {
                 return null;
-            }
 
             var produtoViewModel = _mapper.Map<AlterarProdutoViewModel>(produto);
 

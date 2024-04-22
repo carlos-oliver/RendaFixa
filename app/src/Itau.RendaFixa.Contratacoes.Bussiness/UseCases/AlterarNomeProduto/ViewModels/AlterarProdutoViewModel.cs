@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto.ViewModels
 {
@@ -14,7 +9,8 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto.View
 
         public int IdTipoProduto { get; set; }
 
-        public string? Nome { get; set; }
+        [StringLength(50, MinimumLength = 20, ErrorMessage = "O nome deve ter entre 20 e 50 caracteres")]
+        public string Nome { get; set; }
 
         public bool Bloqueado { get; set; }
     }

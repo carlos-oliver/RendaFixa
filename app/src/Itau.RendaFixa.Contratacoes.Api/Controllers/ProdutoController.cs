@@ -1,12 +1,10 @@
-﻿using Itau.RendaFixa.Contratacoes.Bussiness.Models;
-using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto.ViewModels;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarProduto.ViewModels;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.XPath;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
 {
@@ -39,20 +37,12 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         }
 
         [HttpPatch("produtos")]
-        public async Task<ActionResult<AlterarProdutoViewModel>> AlterarProdutoAsync([FromBody] JsonPatchDocument<AlterarProdutoViewModel> patch, int id)
+        public async Task<ActionResult<AlterarProdutoViewModel>> AlterarProdutoAsync([FromBody] JsonPatchDocument<AlterarProdutoViewModel> patch, int id, CancellationToken cancellationToken = default)
         {
+            var produtoViewModel = await _alterarProdutoUseCase.AlterarNomeProduto(patch, id, cancellationToken);
 
-            if (patch == null)
-            {
-                return BadRequest();
-            }
-
-            var produtoViewModel = await _alterarProdutoUseCase.AlterarNomeProduto(patch, id);
-
-            if (produtoViewModel == null)
-            {
-                return NotFound();
-            }
+            if (!TryValidateModel(produtoViewModel))
+                return ValidationProblem(ModelState);
 
             return Ok(produtoViewModel); 
         }
