@@ -3,10 +3,11 @@ using Itau.RendaFixa.Contratacoes.Bussiness.Filters;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddScoped<IObterTipoProdutoUseCase, ObterTipoProdutoUseCase>();
 builder.Services.AddScoped<IConsultarProdutoUseCase, ConsultarProdutoUseCase>();
 builder.Services.AddScoped<ICriarProdutoUseCase, CriarProdutoUseCase>();
 builder.Services.AddScoped<IAlterarProdutoUseCase, AlterarProdutoUseCase>();
+builder.Services.AddScoped<ICriarContratanteUseCase, CriarContratanteUseCase>();
 
 builder.Services.AddControllers(options =>
 {

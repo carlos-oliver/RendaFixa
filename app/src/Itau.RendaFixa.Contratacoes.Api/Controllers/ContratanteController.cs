@@ -1,13 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
 {
     public class ContratanteController : ControllerBase
     {
-        [HttpPost]
-        public IActionResult Post()
+        private readonly ICriarContratanteUseCase _criarContranteUseCase;
+
+        public ContratanteController(ICriarContratanteUseCase criarContranteUseCase)
         {
-            throw new NotImplementedException();
+            _criarContranteUseCase = criarContranteUseCase;
+        }
+
+        [HttpPost("contratantes")]
+        public async Task<IActionResult> CriarContratanteAsync([FromBody] CriarContratanteViewModel criarContrante, CancellationToken cancellationToken = default)
+        {
+            await _criarContranteUseCase.CriarContratante(criarContrante, cancellationToken);
+            return StatusCode(201);
         }
 
         [HttpPatch]

@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="UseCases\AlterarContratante\" />
-    <Folder Include="UseCases\CriarContratante\" />
     <Folder Include="UseCases\DesabilitarContratante\" />
     <Folder Include="UseCases\DesistirContratacao\" />
     <Folder Include="UseCases\HabilitarContratante\" />

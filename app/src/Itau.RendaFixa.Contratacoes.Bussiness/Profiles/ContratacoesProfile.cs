@@ -3,6 +3,7 @@ using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto.ViewModels;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos.ViewModels;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante.ViewModels;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarProduto.ViewModels;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.Profiles
@@ -16,6 +17,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Profiles
             CreateMap<CriarProdutoViewModel, Produto>();
             CreateMap<AlterarProdutoViewModel, Produto>();
             CreateMap<Produto, AlterarProdutoViewModel>();
+            CreateMap<CriarContratanteViewModel, Contratante>();
         }
     }
 }
