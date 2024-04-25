@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
 {
+    [ApiController]
+    [Route("contratante")]
     public class ContratanteController : ControllerBase
     {
         private readonly ICriarContratanteUseCase _criarContranteUseCase;
@@ -13,10 +15,14 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
             _criarContranteUseCase = criarContranteUseCase;
         }
 
-        [HttpPost("contratantes")]
-        public async Task<IActionResult> CriarContratanteAsync([FromBody] CriarContratanteViewModel criarContrante, CancellationToken cancellationToken = default)
+        [HttpPost]
+        public async Task<IActionResult> CriarContratanteAsync([FromBody] CriarContratanteViewModel criarContratante, CancellationToken cancellationToken = default)
         {
-            await _criarContranteUseCase.CriarContratante(criarContrante, cancellationToken);
+             var contratanteViewModel = await _criarContranteUseCase.CriarContratante(criarContratante, cancellationToken);
+
+            if (!TryValidateModel(contratanteViewModel))
+                return ValidationProblem(ModelState);
+
             return StatusCode(201);
         }
 

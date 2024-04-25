@@ -2,6 +2,7 @@
 using Itau.RendaFixa.Contratacoes.Bussiness.Data;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante
 {
@@ -16,8 +17,16 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante
             _mapper = mapper;
         }
 
+        public async Task<bool> ValidaNomeExistente(string nome)
+        {
+            return await _context.Contratantes.AnyAsync(x => x.Nome == nome);
+        }
+
         public async Task<Contratante> CriarContratante(CriarContratanteViewModel criarContranteViewModel, CancellationToken cancellationToken = default)
         {
+            if (await ValidaNomeExistente(criarContranteViewModel.Nome))
+                throw new Exception("O nome já existe no banco de dados.");
+
             Contratante contratante = _mapper.Map<Contratante>(criarContranteViewModel);
             await _context.Contratantes.AddAsync(contratante, cancellationToken);
             _context.SaveChanges();
