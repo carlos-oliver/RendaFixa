@@ -1,5 +1,8 @@
 ﻿using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante.ViewModels;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante.ViewModels;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
@@ -9,10 +12,12 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
     public class ContratanteController : ControllerBase
     {
         private readonly ICriarContratanteUseCase _criarContranteUseCase;
+        private readonly IHabilitarContratanteUseCase _habilitarContratanteUseCase;
 
-        public ContratanteController(ICriarContratanteUseCase criarContranteUseCase)
+        public ContratanteController(ICriarContratanteUseCase criarContranteUseCase, IHabilitarContratanteUseCase habilitarContratanteUseCase)
         {
             _criarContranteUseCase = criarContranteUseCase;
+            _habilitarContratanteUseCase = habilitarContratanteUseCase;
         }
 
         [HttpPost]
@@ -27,9 +32,14 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         }
 
         [HttpPatch]
-        public IActionResult Patch() 
+        public async Task<ActionResult<HabilitarContratanteViewModel>> AlterarContratanteAsync([FromBody] JsonPatchDocument<HabilitarContratanteViewModel> correcao, string cpf, CancellationToken cancellationToken = default) 
         {
-            throw new NotImplementedException();
+            var contratanteViewModel = await _habilitarContratanteUseCase.HabilitarContratante(correcao, cpf, cancellationToken);
+
+            if(!TryValidateModel(contratanteViewModel))
+                return ValidationProblem(ModelState);
+
+            return Ok(contratanteViewModel);
         }
     }
 }

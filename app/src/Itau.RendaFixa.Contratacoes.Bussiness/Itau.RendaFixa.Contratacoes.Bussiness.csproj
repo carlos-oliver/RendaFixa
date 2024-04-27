@@ -11,7 +11,6 @@
     <Folder Include="UseCases\AlterarContratante\" />
     <Folder Include="UseCases\DesabilitarContratante\" />
     <Folder Include="UseCases\DesistirContratacao\" />
-    <Folder Include="UseCases\HabilitarContratante\" />
     <Folder Include="UseCases\ValidarPagamentoIntegral\" />
     <Folder Include="UseCases\RealizarPagamento\" />
     <Folder Include="UseCases\RealizarContratacao\" />

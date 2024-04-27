@@ -5,6 +5,7 @@ using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,7 @@ builder.Services.AddScoped<IConsultarProdutoUseCase, ConsultarProdutoUseCase>();
 builder.Services.AddScoped<ICriarProdutoUseCase, CriarProdutoUseCase>();
 builder.Services.AddScoped<IAlterarProdutoUseCase, AlterarProdutoUseCase>();
 builder.Services.AddScoped<ICriarContratanteUseCase, CriarContratanteUseCase>();
+builder.Services.AddScoped<IHabilitarContratanteUseCase, HabilitarContratanteUseCase>();
 
 builder.Services.AddControllers(options =>
 {
