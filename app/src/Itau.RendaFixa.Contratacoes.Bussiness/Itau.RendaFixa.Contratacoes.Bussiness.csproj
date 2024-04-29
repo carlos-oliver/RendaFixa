@@ -13,13 +13,14 @@
     <Folder Include="UseCases\DesistirContratacao\" />
     <Folder Include="UseCases\ValidarPagamentoIntegral\" />
     <Folder Include="UseCases\RealizarPagamento\" />
-    <Folder Include="UseCases\RealizarContratacao\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.29" />
+    <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.2.0" />
+    <PackageReference Include="Npgsql.NodaTime" Version="6.0.10" />
   </ItemGroup>
 
   <ItemGroup>

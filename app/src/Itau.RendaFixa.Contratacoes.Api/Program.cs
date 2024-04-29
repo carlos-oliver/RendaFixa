@@ -1,12 +1,16 @@
 using Itau.RendaFixa.Contratacoes.Bussiness.Data;
 using Itau.RendaFixa.Contratacoes.Bussiness.Filters;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao;
 using Microsoft.EntityFrameworkCore;
+using NodaTime.Serialization.SystemTextJson;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +18,12 @@ var connectionString = builder.Configuration.GetConnectionString("ContratacaoRen
 
 builder.Services.AddDbContext<ContratacoesContext>(opts =>
     opts.UseNpgsql(connectionString));
+
+builder.Services.AddControllers()
+    .AddJsonOptions(config =>
+    {
+        config.JsonSerializerOptions.ConfigureForNodaTime(NodaTime.DateTimeZoneProviders.Tzdb);
+    });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -23,6 +33,8 @@ builder.Services.AddScoped<ICriarProdutoUseCase, CriarProdutoUseCase>();
 builder.Services.AddScoped<IAlterarProdutoUseCase, AlterarProdutoUseCase>();
 builder.Services.AddScoped<ICriarContratanteUseCase, CriarContratanteUseCase>();
 builder.Services.AddScoped<IHabilitarContratanteUseCase, HabilitarContratanteUseCase>();
+builder.Services.AddScoped<IRealizarContratacaoUseCase, RealizarContratacaoUseCase>();
+builder.Services.AddScoped<IAtualizarContratacaoUseCase, AtualizarContratacaoUseCase>();
 
 builder.Services.AddControllers(options =>
 {
