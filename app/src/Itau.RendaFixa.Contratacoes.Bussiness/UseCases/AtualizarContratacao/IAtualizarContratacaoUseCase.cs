@@ -4,6 +4,6 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
 {
     public interface IAtualizarContratacaoUseCase
     {
-        Task<ConsultarContratacaoViewModel> Consultarcontratacao(int idContratante, int idProduto, CancellationToken cancellationToken = default);
+        Task<ConsultarContratacaoViewModel> Consultarcontratacao(int idContratante, int idProduto, DateOnly dataOperacao,CancellationToken cancellationToken = default);
     }
 }

@@ -18,10 +18,11 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Models
         public int IdProduto { get; set; }
 
         [Column("data_operacao")]
-        public DateOnly DataOperacao { get; set; }
+        public DateTime DataOperacao { get; set; }
 
         [Column("hora_operacao")]
-        public TimeOnly HoraOperacao { get; set; }
+        //[NotMapped]
+        public TimeSpan HoraOperacao { get; set; }
 
         [Column("quantidade")]
         public int Quantidade { get; set; }
