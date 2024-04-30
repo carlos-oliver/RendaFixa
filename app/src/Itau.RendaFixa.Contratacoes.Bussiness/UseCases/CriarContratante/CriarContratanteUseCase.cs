@@ -25,7 +25,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante
         public async Task<Contratante> CriarContratante(CriarContratanteViewModel criarContranteViewModel, CancellationToken cancellationToken = default)
         {
             if (await ValidaNomeExistente(criarContranteViewModel.Nome))
-                throw new Exception("O nome já existe no banco de dados.");
+                return null;
 
             Contratante contratante = _mapper.Map<Contratante>(criarContranteViewModel);
             await _context.Contratantes.AddAsync(contratante, cancellationToken);

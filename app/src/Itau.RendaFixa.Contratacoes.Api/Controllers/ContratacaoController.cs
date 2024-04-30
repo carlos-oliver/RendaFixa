@@ -22,15 +22,23 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         public async Task<IActionResult> RealizarContratacaoAsync([FromBody] RealizarContratacaoViewModel realizarContratacao, CancellationToken cancellationToken = default)
         {
 
-            await _atualizarContratacaoUseCase.Consultarcontratacao(realizarContratacao.IdContratante, realizarContratacao.IdProduto, DateOnly.FromDateTime(realizarContratacao.DataOperacao), cancellationToken);
+            var contratacao = await _atualizarContratacaoUseCase.Consultarcontratacao(realizarContratacao.Id_Contratante, 
+                realizarContratacao.Id_Produto, DateOnly.FromDateTime(realizarContratacao.Data_Operacao), cancellationToken);
 
-             var contratacaoViewModel = await _realizarContratacaoUseCase.RealizarContratacao(realizarContratacao, cancellationToken);
+            if (contratacao != null)
+            {
+                await _atualizarContratacaoUseCase.AtualizarContratacao(realizarContratacao, cancellationToken);
+            }
+            else
+            {
+                var contratacaoViewModel = await _realizarContratacaoUseCase.RealizarContratacao(realizarContratacao, cancellationToken);
 
-            if (contratacaoViewModel == null)
-                return BadRequest();
+                if (contratacaoViewModel == null)
+                    return BadRequest();
 
-            if (!TryValidateModel(contratacaoViewModel))
-                return ValidationProblem(ModelState);
+                if (!TryValidateModel(contratacaoViewModel))
+                    return ValidationProblem(ModelState);
+            }   
 
             return StatusCode(201);
         }

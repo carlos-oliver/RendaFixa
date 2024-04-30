@@ -1,4 +1,3 @@
-using Itau.RendaFixa.Contratacoes.Bussiness.Conversor;
 using Itau.RendaFixa.Contratacoes.Bussiness.Data;
 using Itau.RendaFixa.Contratacoes.Bussiness.Filters;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto;
@@ -36,22 +35,10 @@ builder.Services.AddControllers(options =>
     options.Filters.Add<CustomExceptionFilter>(); // Adicionar o filtro de exceção personalizado
 });
 
-
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddControllers().AddNewtonsoftJson();
-//builder.Services.AddControllers().AddNewtonsoftJson(options =>
-//{
-//    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-//    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-//});
-builder.Services.AddControllers()
-    .AddJsonOptions(opt =>
-    {
-        opt.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
-        // other converter...
-    });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

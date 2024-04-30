@@ -17,7 +17,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante
             _mapper = mapper;
         }
 
-        public async Task<HabilitarContratanteViewModel> HabilitarContratante(JsonPatchDocument<HabilitarContratanteViewModel> correcao, string cpf, CancellationToken cancellationToken)
+        public async Task<HabilitarContratanteViewModel> HabilitarContratante(JsonPatchDocument<HabilitarContratanteViewModel> patch, string cpf, CancellationToken cancellationToken)
         {
             var query = _context.Contratantes.AsQueryable();
 
@@ -28,7 +28,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante
 
             var contratanteViewModel = _mapper.Map<HabilitarContratanteViewModel>(contrante);
 
-            correcao.ApplyTo(contratanteViewModel);
+            patch.ApplyTo(contratanteViewModel);
 
             _mapper.Map(contratanteViewModel, contrante);
 

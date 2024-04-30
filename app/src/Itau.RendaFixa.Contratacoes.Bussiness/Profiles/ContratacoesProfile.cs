@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto.ViewModels;
-using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao.ViewModel;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos.ViewModels;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante.ViewModels;
@@ -24,7 +23,8 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Profiles
             CreateMap<HabilitarContratanteViewModel, Contratante>();
             CreateMap<Contratante, HabilitarContratanteViewModel>();
             CreateMap<RealizarContratacaoViewModel, Contratacao>();
-            CreateMap<Contratacao, ConsultarContratacaoViewModel>();
+            CreateMap<Contratacao, RealizarContratacaoViewModel>();
+            //CreateMap<AlterarContratacaoViewModel, Contratacao>();
         }
     }
 }

@@ -29,9 +29,9 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 
         public bool ValidarDesconto(RealizarContratacaoViewModel realizarContratacaoViewModel)
         {
-            var valorTotal = realizarContratacaoViewModel.Quantidade * realizarContratacaoViewModel.ValorUnitario;
+            var valorTotal = realizarContratacaoViewModel.Quantidade * realizarContratacaoViewModel.Valor_Unitario;
 
-            if (realizarContratacaoViewModel.ValorDesconto > valorTotal)
+            if (realizarContratacaoViewModel.Valor_Desconto > valorTotal)
                 return true;
 
             return false;

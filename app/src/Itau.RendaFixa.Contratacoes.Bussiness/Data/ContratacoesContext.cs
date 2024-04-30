@@ -7,6 +7,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Data
     {
         public ContratacoesContext(DbContextOptions<ContratacoesContext> opts) : base(opts)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         }
         public DbSet<TipoProduto> TipoProdutos { get; set; }

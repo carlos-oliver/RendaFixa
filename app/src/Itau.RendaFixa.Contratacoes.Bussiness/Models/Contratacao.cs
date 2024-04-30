@@ -21,7 +21,6 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Models
         public DateTime DataOperacao { get; set; }
 
         [Column("hora_operacao")]
-        //[NotMapped]
         public TimeSpan HoraOperacao { get; set; }
 
         [Column("quantidade")]

@@ -32,9 +32,9 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult<HabilitarContratanteViewModel>> AlterarContratanteAsync([FromBody] JsonPatchDocument<HabilitarContratanteViewModel> correcao, string cpf, CancellationToken cancellationToken = default) 
+        public async Task<ActionResult<HabilitarContratanteViewModel>> AlterarContratanteAsync([FromBody] JsonPatchDocument<HabilitarContratanteViewModel> patch, string cpf, CancellationToken cancellationToken = default) 
         {
-            var contratanteViewModel = await _habilitarContratanteUseCase.HabilitarContratante(correcao, cpf, cancellationToken);
+            var contratanteViewModel = await _habilitarContratanteUseCase.HabilitarContratante(patch, cpf, cancellationToken);
 
             if(!TryValidateModel(contratanteViewModel))
                 return ValidationProblem(ModelState);
