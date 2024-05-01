@@ -35,13 +35,13 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
             var query = _context.Contratacoes.AsQueryable();
 
             var contratacaoQuery = await query.Where(x =>
-                x.IdContratante == contratacao.Id_Contratante &&
-                x.IdProduto == contratacao.Id_Produto &&
-                x.DataOperacao == contratacao.Data_Operacao)
+                x.IdContratante == contratacao.IdContratante &&
+                x.IdProduto == contratacao.IdProduto &&
+                x.DataOperacao == contratacao.DataOperacao)
                 .FirstOrDefaultAsync(cancellationToken);
 
             contratacaoQuery.Quantidade += contratacao.Quantidade;
-            contratacaoQuery.ValorUnitario += contratacao.Valor_Unitario;
+            contratacaoQuery.ValorUnitario += contratacao.ValorUnitario;
 
             _context.Contratacoes.Update(contratacaoQuery);
 

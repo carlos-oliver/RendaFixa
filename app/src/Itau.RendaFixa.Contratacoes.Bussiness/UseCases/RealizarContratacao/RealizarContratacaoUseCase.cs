@@ -2,6 +2,7 @@
 using Itau.RendaFixa.Contratacoes.Bussiness.Data;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel;
+using System.Text.Json;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 {
@@ -21,7 +22,8 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
             if (ValidarDesconto(realizarContratacaoViewModel))
                 return null;
 
-            Contratacao contratacao = _mapper.Map<Contratacao>(realizarContratacaoViewModel);
+            Contratacao com = JsonSerializer.Deserialize<Contratacao>(realizarContratacaoViewModel.ToString());
+            Contratacao contratacao = _mapper.Map<Contratacao>(com);
             await _context.Contratacoes.AddAsync(contratacao, cancellationToken);
             _context.SaveChanges();
             return contratacao;
@@ -29,9 +31,9 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 
         public bool ValidarDesconto(RealizarContratacaoViewModel realizarContratacaoViewModel)
         {
-            var valorTotal = realizarContratacaoViewModel.Quantidade * realizarContratacaoViewModel.Valor_Unitario;
+            var valorTotal = realizarContratacaoViewModel.Quantidade * realizarContratacaoViewModel.ValorUnitario;
 
-            if (realizarContratacaoViewModel.Valor_Desconto > valorTotal)
+            if (realizarContratacaoViewModel.ValorDesconto > valorTotal)
                 return true;
 
             return false;
