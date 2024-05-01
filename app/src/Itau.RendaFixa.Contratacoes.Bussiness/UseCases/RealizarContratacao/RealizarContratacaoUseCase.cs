@@ -2,7 +2,6 @@
 using Itau.RendaFixa.Contratacoes.Bussiness.Data;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel;
-using System.Text.Json;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 {
