@@ -24,7 +24,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Profiles
             CreateMap<Contratante, HabilitarContratanteViewModel>();
             CreateMap<RealizarContratacaoViewModel, Contratacao>();
             CreateMap<Contratacao, RealizarContratacaoViewModel>();
-            //CreateMap<AlterarContratacaoViewModel, Contratacao>();
+          
         }
     }
 }
