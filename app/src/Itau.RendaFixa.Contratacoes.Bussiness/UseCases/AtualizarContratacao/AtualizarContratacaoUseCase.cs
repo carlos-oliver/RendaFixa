@@ -17,6 +17,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
         }
         public async Task<RealizarContratacaoViewModel> Consultarcontratacao(int idContratante, int idProduto, DateOnly dataOperacao, CancellationToken cancellationToken = default)
         {
+            //código duplicado realizando a mesma consuulta duas vezes 
             var query = _context.Contratacoes.AsQueryable();
 
             var contratacao = await query.Where(x => 
@@ -32,6 +33,8 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
 
         public async Task AtualizarContratacao(RealizarContratacaoViewModel contratacao, CancellationToken cancellationToken = default)
         {
+            //código duplicado realizando a mesma consuulta duas vezes 
+
             var query = _context.Contratacoes.AsQueryable();
 
             var contratacaoQuery = await query.Where(x =>

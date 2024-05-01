@@ -22,8 +22,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
             if (ValidarDesconto(realizarContratacaoViewModel))
                 return null;
 
-            Contratacao com = JsonSerializer.Deserialize<Contratacao>(realizarContratacaoViewModel.ToString());
-            Contratacao contratacao = _mapper.Map<Contratacao>(com);
+            Contratacao contratacao = _mapper.Map<Contratacao>(realizarContratacaoViewModel);
             await _context.Contratacoes.AddAsync(contratacao, cancellationToken);
             _context.SaveChanges();
             return contratacao;
