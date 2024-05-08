@@ -16,15 +16,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
             _context = context;
             _mapper = mapper;
         }
-        //public async Task<RealizarContratacaoViewModel> Consultarcontratacao(int idContratante, int idProduto, DateOnly dataOperacao, CancellationToken cancellationToken = default)
-        //{
-        //    var contratacao = await Consultar(idContratante, idProduto, dataOperacao, cancellationToken);
-
-        //    var contratacaoModel = _mapper.Map<RealizarContratacaoViewModel>(contratacao);
-
-        //    return contratacaoModel;
-        //}
-
+ 
         public async Task AtualizarContratacao(RealizarContratacaoViewModel contratacao, CancellationToken cancellationToken = default)
         {
             var contratacaoQuery = await Consultarcontratacao(contratacao.IdContratante, contratacao.IdProduto, DateOnly.FromDateTime(contratacao.DataOperacao), cancellationToken);
