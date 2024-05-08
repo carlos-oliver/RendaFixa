@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Itau.RendaFixa.Contratacoes.Bussiness.Data;
+using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,33 +16,18 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
             _context = context;
             _mapper = mapper;
         }
-        public async Task<RealizarContratacaoViewModel> Consultarcontratacao(int idContratante, int idProduto, DateOnly dataOperacao, CancellationToken cancellationToken = default)
-        {
-            //código duplicado realizando a mesma consuulta duas vezes 
-            var query = _context.Contratacoes.AsQueryable();
+        //public async Task<RealizarContratacaoViewModel> Consultarcontratacao(int idContratante, int idProduto, DateOnly dataOperacao, CancellationToken cancellationToken = default)
+        //{
+        //    var contratacao = await Consultar(idContratante, idProduto, dataOperacao, cancellationToken);
 
-            var contratacao = await query.Where(x => 
-                x.IdContratante == idContratante && 
-                x.IdProduto == idProduto && 
-                DateOnly.FromDateTime(x.DataOperacao) == dataOperacao)
-                .FirstOrDefaultAsync(cancellationToken);
+        //    var contratacaoModel = _mapper.Map<RealizarContratacaoViewModel>(contratacao);
 
-            var contratacaoModel = _mapper.Map<RealizarContratacaoViewModel>(contratacao);
-
-            return contratacaoModel;
-        }
+        //    return contratacaoModel;
+        //}
 
         public async Task AtualizarContratacao(RealizarContratacaoViewModel contratacao, CancellationToken cancellationToken = default)
         {
-            //código duplicado realizando a mesma consuulta duas vezes 
-
-            var query = _context.Contratacoes.AsQueryable();
-
-            var contratacaoQuery = await query.Where(x =>
-                x.IdContratante == contratacao.IdContratante &&
-                x.IdProduto == contratacao.IdProduto &&
-                x.DataOperacao == contratacao.DataOperacao)
-                .FirstOrDefaultAsync(cancellationToken);
+            var contratacaoQuery = await Consultarcontratacao(contratacao.IdContratante, contratacao.IdProduto, DateOnly.FromDateTime(contratacao.DataOperacao), cancellationToken);
 
             contratacaoQuery.Quantidade += contratacao.Quantidade;
             contratacaoQuery.ValorUnitario += contratacao.ValorUnitario;
@@ -49,6 +35,19 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
             _context.Contratacoes.Update(contratacaoQuery);
 
             await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<Contratacao> Consultarcontratacao(int idContratante, int idProduto, DateOnly dataOperacao, CancellationToken cancellationToken = default)
+        {
+            var query = _context.Contratacoes.AsQueryable();
+
+            var contratacao = await query.Where(x =>
+                x.IdContratante == idContratante &&
+                x.IdProduto == idProduto &&
+                DateOnly.FromDateTime(x.DataOperacao) == dataOperacao)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            return contratacao;
         }
     }
 }
