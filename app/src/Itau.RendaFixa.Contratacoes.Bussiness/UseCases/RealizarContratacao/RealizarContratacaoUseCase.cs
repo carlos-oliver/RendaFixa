@@ -7,21 +7,28 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 {
     public class RealizarContratacaoUseCase : IRealizarContratacaoUseCase
     {
+        private readonly IConsultarProdutoBloqueadoUseCase _consultarProdutoBloqueadoUseCase;
         private readonly ContratacoesContext _context;
         private readonly IMapper _mapper;
 
-        public RealizarContratacaoUseCase(ContratacoesContext context, IMapper mapper)
+        public RealizarContratacaoUseCase(ContratacoesContext context, IMapper mapper, IConsultarProdutoBloqueadoUseCase consultarProdutoBloqueadoUseCase)
         {
             _context = context;
             _mapper = mapper;
+            _consultarProdutoBloqueadoUseCase = consultarProdutoBloqueadoUseCase;
         }
 
         public async Task<Contratacao> RealizarContratacao(RealizarContratacaoViewModel realizarContratacaoViewModel, CancellationToken cancellationToken = default)
         {
+
+
             if (DiasUteis(DateTime.Parse("2024-05-08")))
                 return null;
 
             if (!HorarioContratacao())
+                return null;
+
+            if (await _consultarProdutoBloqueadoUseCase.ConsultarProduto(realizarContratacaoViewModel.IdProduto))
                 return null;
 
             if (ValidarDesconto(realizarContratacaoViewModel))
