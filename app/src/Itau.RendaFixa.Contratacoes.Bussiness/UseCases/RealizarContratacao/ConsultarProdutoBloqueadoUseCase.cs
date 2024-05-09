@@ -9,11 +9,10 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 
         public ConsultarProdutoBloqueadoUseCase(ContratacoesContext context)
         {
-            _context = context;
-            
+            _context = context;       
         }
 
-        public async Task<bool> ConsultarProduto(int id)
+        public async Task<bool> ConsultarProduto(int id, CancellationToken cancellationToken = default)
         {
             var query = _context.Produtos.AsQueryable();
 

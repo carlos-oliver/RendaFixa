@@ -8,14 +8,16 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
     public class RealizarContratacaoUseCase : IRealizarContratacaoUseCase
     {
         private readonly IConsultarProdutoBloqueadoUseCase _consultarProdutoBloqueadoUseCase;
+        private readonly IConsultarContratanteBloqueadoUseCase _consultarContratanteBloqueadoUseCase;
         private readonly ContratacoesContext _context;
         private readonly IMapper _mapper;
 
-        public RealizarContratacaoUseCase(ContratacoesContext context, IMapper mapper, IConsultarProdutoBloqueadoUseCase consultarProdutoBloqueadoUseCase)
+        public RealizarContratacaoUseCase(ContratacoesContext context, IMapper mapper, IConsultarProdutoBloqueadoUseCase consultarProdutoBloqueadoUseCase, IConsultarContratanteBloqueadoUseCase consultarContratanteBloqueado)
         {
             _context = context;
             _mapper = mapper;
             _consultarProdutoBloqueadoUseCase = consultarProdutoBloqueadoUseCase;
+            _consultarContratanteBloqueadoUseCase = consultarContratanteBloqueado;
         }
 
         public async Task<Contratacao> RealizarContratacao(RealizarContratacaoViewModel realizarContratacaoViewModel, CancellationToken cancellationToken = default)
@@ -29,6 +31,9 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
                 return null;
 
             if (await _consultarProdutoBloqueadoUseCase.ConsultarProduto(realizarContratacaoViewModel.IdProduto))
+                return null;
+
+            if (!await _consultarContratanteBloqueadoUseCase.ConsultarContratante(realizarContratacaoViewModel.IdContratante))
                 return null;
 
             if (ValidarDesconto(realizarContratacaoViewModel))
@@ -60,7 +65,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
             TimeSpan horarioAtual = DateTime.Now.TimeOfDay;
 
             TimeSpan inicio = new TimeSpan(10, 30, 0);
-            TimeSpan fim = new TimeSpan(22, 0, 0);
+            TimeSpan fim = new TimeSpan(23, 59, 0);
 
             return horarioAtual >= inicio && horarioAtual <= fim;
         }

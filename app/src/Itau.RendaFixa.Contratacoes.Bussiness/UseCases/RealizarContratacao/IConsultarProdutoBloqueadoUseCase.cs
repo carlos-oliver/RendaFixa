@@ -2,6 +2,6 @@
 {
     public interface IConsultarProdutoBloqueadoUseCase
     {
-        Task<bool> ConsultarProduto(int id);
+        Task<bool> ConsultarProduto(int id, CancellationToken cancellationToken = default);
     }
 }
