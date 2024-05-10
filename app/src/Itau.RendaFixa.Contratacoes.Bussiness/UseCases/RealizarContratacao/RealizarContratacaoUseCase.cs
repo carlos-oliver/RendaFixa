@@ -28,8 +28,8 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
             if (DiasUteis(DateTime.Parse("2024-05-08")))
                 return null;
 
-            if (!HorarioContratacao())
-                return null;
+            //if (!HorarioContratacao())
+            //    return null;
 
             if (await _consultarProdutoBloqueadoUseCase.ConsultarProduto(realizarContratacaoViewModel.IdProduto))
                 return null;

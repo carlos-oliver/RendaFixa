@@ -16,17 +16,8 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
         {
             var valorTotal = TotalOperacaoEspecial(valorUnitario);
             var tipoSegmento = await ConsultarSegmentoContratante(idContrante);
+            var tipoProduto = await ConsultarTipoProduto(idProduto);
 
-            var queryProdutos = _context.Produtos.AsQueryable();
-            var queryTipoProdutos = _context.TipoProdutos.AsQueryable();
-
-            var tipoProduto  = queryProdutos.AsNoTracking()
-                .Where(x => x.Id == idProduto)
-                .Join(queryTipoProdutos.AsNoTracking(),
-                p => p.IdTipoProduto,
-                t => t.Id,
-                (p, t) => t.Nome); 
-            
             var segmento = tipoSegmento.FirstOrDefaultAsync().Result.Segmento.ToString();
             var produto = tipoProduto?.FirstOrDefaultAsync().Result.ToString();
 
@@ -62,6 +53,20 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
             return query;
         }
 
+        public async Task<IQueryable<string>> ConsultarTipoProduto(int idProduto)
+        {
+            var queryProdutos = _context.Produtos.AsQueryable();
+            var queryTipoProdutos = _context.TipoProdutos.AsQueryable();
+
+            var tipoProduto = queryProdutos.AsNoTracking()
+                .Where(x => x.Id == idProduto)
+                .Join(queryTipoProdutos.AsNoTracking(),
+                p => p.IdTipoProduto,
+                t => t.Id,
+                (p, t) => t.Nome);
+
+            return tipoProduto;
+        }
         public bool TotalOperacaoEspecial(double valorTotal)
         {
             return valorTotal > 20000.00;
