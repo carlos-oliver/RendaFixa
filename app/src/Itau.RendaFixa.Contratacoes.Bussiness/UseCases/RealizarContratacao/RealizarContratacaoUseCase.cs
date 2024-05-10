@@ -9,20 +9,21 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
     {
         private readonly IConsultarProdutoBloqueadoUseCase _consultarProdutoBloqueadoUseCase;
         private readonly IConsultarContratanteBloqueadoUseCase _consultarContratanteBloqueadoUseCase;
-        private readonly ContratacoesContext _context;
+        private readonly IProdutoPorSegmentoUseCase _produtoPorSegmentoUseCase;
         private readonly IMapper _mapper;
+        private readonly ContratacoesContext _context;
 
-        public RealizarContratacaoUseCase(ContratacoesContext context, IMapper mapper, IConsultarProdutoBloqueadoUseCase consultarProdutoBloqueadoUseCase, IConsultarContratanteBloqueadoUseCase consultarContratanteBloqueado)
+        public RealizarContratacaoUseCase(ContratacoesContext context, IMapper mapper, IConsultarProdutoBloqueadoUseCase consultarProdutoBloqueadoUseCase, IConsultarContratanteBloqueadoUseCase consultarContratanteBloqueado, IProdutoPorSegmentoUseCase produtoPorSegmentoUseCase)
         {
             _context = context;
             _mapper = mapper;
             _consultarProdutoBloqueadoUseCase = consultarProdutoBloqueadoUseCase;
             _consultarContratanteBloqueadoUseCase = consultarContratanteBloqueado;
+            _produtoPorSegmentoUseCase = produtoPorSegmentoUseCase;
         }
 
         public async Task<Contratacao> RealizarContratacao(RealizarContratacaoViewModel realizarContratacaoViewModel, CancellationToken cancellationToken = default)
         {
-
 
             if (DiasUteis(DateTime.Parse("2024-05-08")))
                 return null;
@@ -34,6 +35,9 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
                 return null;
 
             if (!await _consultarContratanteBloqueadoUseCase.ConsultarContratante(realizarContratacaoViewModel.IdContratante))
+                return null;
+
+            if (!await _produtoPorSegmentoUseCase.ValidarProdutoPorSegmento(realizarContratacaoViewModel.IdProduto, realizarContratacaoViewModel.IdContratante, realizarContratacaoViewModel.ValorUnitario))
                 return null;
 
             if (ValidarDesconto(realizarContratacaoViewModel))
@@ -65,7 +69,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
             TimeSpan horarioAtual = DateTime.Now.TimeOfDay;
 
             TimeSpan inicio = new TimeSpan(10, 30, 0);
-            TimeSpan fim = new TimeSpan(23, 59, 0);
+            TimeSpan fim = new TimeSpan(00, 59, 0);
 
             return horarioAtual >= inicio && horarioAtual <= fim;
         }

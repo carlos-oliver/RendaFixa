@@ -31,6 +31,7 @@ builder.Services.AddScoped<IRealizarContratacaoUseCase, RealizarContratacaoUseCa
 builder.Services.AddScoped<IAtualizarContratacaoUseCase, AtualizarContratacaoUseCase>();
 builder.Services.AddScoped<IConsultarProdutoBloqueadoUseCase, ConsultarProdutoBloqueadoUseCase>();
 builder.Services.AddScoped<IConsultarContratanteBloqueadoUseCase, ConsultarContratanteBloqueadoUseCase>();
+builder.Services.AddScoped<IProdutoPorSegmentoUseCase, ProdutoPorSegmentoUseCase>();
 
 builder.Services.AddControllers(options =>
 {
