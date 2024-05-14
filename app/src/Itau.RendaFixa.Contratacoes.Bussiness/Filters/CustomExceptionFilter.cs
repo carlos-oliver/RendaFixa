@@ -21,7 +21,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Filters
                     }
                 }
             };
-            
+            // estes if/else sao iguais
             if (context.Exception is DbUpdateException)
             {
                 context.Result = new ObjectResult(response)

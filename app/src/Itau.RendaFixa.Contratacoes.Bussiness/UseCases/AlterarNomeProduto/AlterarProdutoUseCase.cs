@@ -19,12 +19,13 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto
         public async Task<AlterarProdutoViewModel> AlterarNomeProduto(JsonPatchDocument<AlterarProdutoViewModel> patch, int id, CancellationToken cancellationToken)
         {
             var query = _context.Produtos.AsQueryable();
-
+            // caso voce nao encontre o produto precisa garantir que o cliente receber um 404
+            // implementar um notification
             var produto = await query.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
 
             if (produto == null)
                 return null;
-
+            // simplificar o processo de mapping
             var produtoViewModel = _mapper.Map<AlterarProdutoViewModel>(produto);
 
             patch.ApplyTo(produtoViewModel);

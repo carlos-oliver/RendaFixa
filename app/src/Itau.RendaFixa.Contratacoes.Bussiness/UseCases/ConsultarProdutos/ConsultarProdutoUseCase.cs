@@ -26,7 +26,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
                 query = query.AsNoTracking().Where(x => x.Nome!.ToLower() == nome.ToLower());
 
             var produtos = await query.Take(take).ToListAsync(cancellationToken);       
-
+            // se utilizar a nomenclatura ViewModel, utilize somente elas, se Dto tbm so Dto
             var produtosDto = _mapper.Map<IEnumerable<ConsultarProdutoViewModel>>(produtos);
 
             var response = new ApiResponse<IEnumerable<ConsultarProdutoViewModel>>

@@ -25,11 +25,25 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
         public async Task<Contratacao> RealizarContratacao(RealizarContratacaoViewModel realizarContratacaoViewModel, CancellationToken cancellationToken = default)
         {
 
+            // acredito que isso aqui e um teste
             if (DiasUteis(DateTime.Parse("2024-05-08")))
                 return null;
 
             //if (!HorarioContratacao())
             //    return null;
+
+            // como nao ha dependencias nessas consultar poderimos fazer a mesma de forma concorrente com Task.WhenAll()
+            //var tasks = new Task<bool>[] 
+            //{
+            //    _consultarProdutoBloqueadoUseCase.ConsultarProduto(realizarContratacaoViewModel.IdProduto),
+            //    _consultarContratanteBloqueadoUseCase.ConsultarContratante(realizarContratacaoViewModel.IdContratante),
+            //    _produtoPorSegmentoUseCase.ValidarProdutoPorSegmento(realizarContratacaoViewModel.IdProduto, realizarContratacaoViewModel.IdContratante, realizarContratacaoViewModel.ValorUnitario)
+            //};
+            //
+            //var resultados = await Task.WhenAll(tasks);
+
+            //if (resultados.Any(x => !x))
+            //    return default;
 
             if (await _consultarProdutoBloqueadoUseCase.ConsultarProduto(realizarContratacaoViewModel.IdProduto))
                 return null;
@@ -48,7 +62,8 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
             _context.SaveChanges();
             return contratacao;
         }
-
+        // mudar para estatico
+        // simplificar realizarContratacaoViewModel.ValorDesconto > (realizarContratacaoViewModel.Quantidade * realizarContratacaoViewModel.ValorUnitario) 
         public bool ValidarDesconto(RealizarContratacaoViewModel realizarContratacaoViewModel)
         {
             var valorTotal = realizarContratacaoViewModel.Quantidade * realizarContratacaoViewModel.ValorUnitario;
@@ -58,12 +73,13 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 
             return false;
         }
-
+        // tornar estatico, pode ser reaproveitado? se sim mover para um metodo de extensao
         public bool DiasUteis(DateTime data)
         {
             return data.DayOfWeek == DayOfWeek.Saturday || data.DayOfWeek == DayOfWeek.Sunday;
         }
-
+        // sempre que criar uma variavel mantenha o padrao com var
+        // var horarioAtual
         public bool HorarioContratacao()
         {
             TimeSpan horarioAtual = DateTime.Now.TimeOfDay;

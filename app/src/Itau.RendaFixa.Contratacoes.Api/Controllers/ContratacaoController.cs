@@ -39,10 +39,10 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
                 if (!TryValidateModel(contratacaoViewModel))
                     return ValidationProblem(ModelState);
             }   
-
+            // return Created();
             return StatusCode(201);
         }
-
+        // faltou implementacao?
         [HttpPatch]
         public IActionResult Patch()
         {

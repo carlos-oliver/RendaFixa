@@ -19,7 +19,8 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
             _criarContranteUseCase = criarContranteUseCase;
             _habilitarContratanteUseCase = habilitarContratanteUseCase;
         }
-
+        // incluir o atribute com os possiveis resultados
+        // [ProducesResponseType()]
         [HttpPost]
         public async Task<IActionResult> CriarContratanteAsync([FromBody] CriarContratanteViewModel criarContratante, CancellationToken cancellationToken = default)
         {

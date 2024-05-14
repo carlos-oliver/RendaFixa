@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 {
+    // isto poderia ser um repository
     public class ProdutoPorSegmentoUseCase : IProdutoPorSegmentoUseCase
     {
         private readonly ContratacoesContext _context;

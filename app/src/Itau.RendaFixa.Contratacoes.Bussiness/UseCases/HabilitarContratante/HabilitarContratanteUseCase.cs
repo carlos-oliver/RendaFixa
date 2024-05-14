@@ -16,13 +16,13 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante
             _context = context;
             _mapper = mapper;
         }
-
+        // aqui nao entendi o uso de JsonPatchDocument, pode explicar?
         public async Task<HabilitarContratanteViewModel> HabilitarContratante(JsonPatchDocument<HabilitarContratanteViewModel> patch, string cpf, CancellationToken cancellationToken)
         {
             var query = _context.Contratantes.AsQueryable();
 
             var contrante = await query.Where(x => x.Cpf == cpf).FirstOrDefaultAsync(cancellationToken);
-
+            // alterar para contratante is null para melhorar legibilidade
             if (contrante == null)
                 return null;
 
