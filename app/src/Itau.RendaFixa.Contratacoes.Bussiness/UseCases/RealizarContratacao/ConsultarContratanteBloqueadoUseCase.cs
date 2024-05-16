@@ -1,28 +1,27 @@
-﻿using Itau.RendaFixa.Contratacoes.Bussiness.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 {
     // isto poderia ser um repository
     public class ConsultarContratanteBloqueadoUseCase : IConsultarContratanteBloqueadoUseCase
     {
-        private readonly ContratacoesContext _context;
+        private readonly IContratacaoDbContext _context;
 
-        public ConsultarContratanteBloqueadoUseCase(ContratacoesContext context)
+        public ConsultarContratanteBloqueadoUseCase(IContratacaoDbContext context)
         {
             _context = context;
         }
 
-        public async Task<bool> ConsultarContratante(int idContratante, CancellationToken cancellationToken = default)
+        public Task<bool> ConsultarContratante(int idContratante, CancellationToken cancellationToken = default)
         {
             var query = _context.Contratantes.AsQueryable();
 
-            query = query.AsNoTracking().Where(x => x.Id == idContratante && x.Habilitado == true);
+            query = query.Where(x => x.Id == idContratante && x.Habilitado == true);
 
-            if (await query.CountAsync() > 0) 
-                return true;
+            if (query.Count() > 0) 
+                return Task.FromResult(true);
 
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

@@ -22,19 +22,45 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         public async Task<IActionResult> RealizarContratacaoAsync([FromBody] RealizarContratacaoViewModel realizarContratacao, CancellationToken cancellationToken = default)
         {
 
-            var contratacao = await _atualizarContratacaoUseCase.Consultarcontratacao(realizarContratacao.IdContratante, 
-                realizarContratacao.IdProduto, DateOnly.FromDateTime(realizarContratacao.DataOperacao), cancellationToken);
+            //Command
+            //var command = new ConsultarContratacaoCommand
+            //{
+            //    IdContratante = realizarContratacao.IdContratante,
+            //    IdProduto = realizarContratacao.IdProduto,
+            //    DataOperacao = DateOnly.FromDateTime(realizarContratacao.DataOperacao)
+            //};
 
-            if (contratacao != null)
-            {
+            var command = new ConsultarContratacaoCommandBuilder()
+                .WithIdContratante(realizarContratacao.IdContratante)
+                .WithIdProduto(realizarContratacao.IdProduto)
+                .WithDataOperacao(realizarContratacao.DataOperacao)
+                .Build();
+
+            var contratacao = await _atualizarContratacaoUseCase.ConsultarContratacaoAsync(command, cancellationToken);
+
+            if (contratacao is null)
                 await _atualizarContratacaoUseCase.AtualizarContratacao(realizarContratacao, cancellationToken);
-            }
             else
             {
                 var contratacaoViewModel = await _realizarContratacaoUseCase.RealizarContratacao(realizarContratacao, cancellationToken);
-
+                // substituir FluentValidation
                 if (contratacaoViewModel == null)
-                    return BadRequest();
+                    return BadRequest(new 
+                    {
+                        Errors = new []
+                        {
+                            new 
+                            {
+                                Code = "00001",
+                                Message = "CARLOS NAO SEI "
+                            },
+                            new 
+                            {
+                                Code = "00001",
+                                Message = "CARLOS NAO SEI "
+                            }
+                        }
+                    });
 
                 if (!TryValidateModel(contratacaoViewModel))
                     return ValidationProblem(ModelState);

@@ -22,20 +22,12 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Filters
                 }
             };
             // estes if/else sao iguais
-            if (context.Exception is DbUpdateException)
+            
+            context.Result = new ObjectResult(response)
             {
-                context.Result = new ObjectResult(response)
-                {
-                    StatusCode = 500
-                };
-            }
-            else
-            {
-                context.Result = new ObjectResult(response)
-                {
-                    StatusCode = 500
-                };
-            }
+                StatusCode = 500
+            };
+            
 
             context.ExceptionHandled = true;
         }

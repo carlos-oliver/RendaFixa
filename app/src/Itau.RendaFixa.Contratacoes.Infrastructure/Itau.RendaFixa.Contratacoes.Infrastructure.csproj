@@ -16,4 +16,8 @@
     <Folder Include="Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Itau.RendaFixa.Contratacoes.Bussiness\Itau.RendaFixa.Contratacoes.Bussiness.csproj" />
+  </ItemGroup>
+
 </Project>

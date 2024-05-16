@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Itau.RendaFixa.Contratacoes.Bussiness.Data;
+using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel;
 
@@ -11,11 +11,19 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
         private readonly IConsultarContratanteBloqueadoUseCase _consultarContratanteBloqueadoUseCase;
         private readonly IProdutoPorSegmentoUseCase _produtoPorSegmentoUseCase;
         private readonly IMapper _mapper;
-        private readonly ContratacoesContext _context;
+        //private readonly ContratacoesContext _context;
+        private readonly IContratacaoRepository _contratacaoRepository;
 
-        public RealizarContratacaoUseCase(ContratacoesContext context, IMapper mapper, IConsultarProdutoBloqueadoUseCase consultarProdutoBloqueadoUseCase, IConsultarContratanteBloqueadoUseCase consultarContratanteBloqueado, IProdutoPorSegmentoUseCase produtoPorSegmentoUseCase)
+        public RealizarContratacaoUseCase(
+            //ContratacoesContext context,
+            IContratacaoRepository contratacaoRepository,
+            IMapper mapper, 
+            IConsultarProdutoBloqueadoUseCase consultarProdutoBloqueadoUseCase,
+            IConsultarContratanteBloqueadoUseCase consultarContratanteBloqueado, 
+            IProdutoPorSegmentoUseCase produtoPorSegmentoUseCase)
         {
-            _context = context;
+            //_context = context;
+            _contratacaoRepository = contratacaoRepository;
             _mapper = mapper;
             _consultarProdutoBloqueadoUseCase = consultarProdutoBloqueadoUseCase;
             _consultarContratanteBloqueadoUseCase = consultarContratanteBloqueado;
@@ -57,9 +65,10 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
             if (ValidarDesconto(realizarContratacaoViewModel))
                 return null;
 
-            Contratacao contratacao = _mapper.Map<Contratacao>(realizarContratacaoViewModel);
-            await _context.Contratacoes.AddAsync(contratacao, cancellationToken);
-            _context.SaveChanges();
+            var contratacao = _mapper.Map<Contratacao>(realizarContratacaoViewModel);
+            
+            await _contratacaoRepository.CriarAsync(contratacao, cancellationToken);
+            
             return contratacao;
         }
         // mudar para estatico
