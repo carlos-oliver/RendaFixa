@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel;
@@ -7,63 +8,64 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 {
     public class RealizarContratacaoUseCase : IRealizarContratacaoUseCase
     {
-        private readonly IConsultarProdutoBloqueadoUseCase _consultarProdutoBloqueadoUseCase;
-        private readonly IConsultarContratanteBloqueadoUseCase _consultarContratanteBloqueadoUseCase;
-        private readonly IProdutoPorSegmentoUseCase _produtoPorSegmentoUseCase;
         private readonly IMapper _mapper;
-        //private readonly ContratacoesContext _context;
         private readonly IContratacaoRepository _contratacaoRepository;
+        private readonly IConsultarProdutoRepository _consultarProdutoRepository;
+        private readonly IConsultarContratanteRepository _consultarContratanteRepository;
+        private readonly IContratacaoDbContext _context;
+
+
 
         public RealizarContratacaoUseCase(
-            //ContratacoesContext context,
             IContratacaoRepository contratacaoRepository,
-            IMapper mapper, 
-            IConsultarProdutoBloqueadoUseCase consultarProdutoBloqueadoUseCase,
-            IConsultarContratanteBloqueadoUseCase consultarContratanteBloqueado, 
-            IProdutoPorSegmentoUseCase produtoPorSegmentoUseCase)
+            IMapper mapper,
+            IConsultarProdutoRepository consultarProdutoRepository,
+            IConsultarContratanteRepository consultarContratanteRepository,
+            IContratacaoDbContext context)
         {
-            //_context = context;
             _contratacaoRepository = contratacaoRepository;
             _mapper = mapper;
-            _consultarProdutoBloqueadoUseCase = consultarProdutoBloqueadoUseCase;
-            _consultarContratanteBloqueadoUseCase = consultarContratanteBloqueado;
-            _produtoPorSegmentoUseCase = produtoPorSegmentoUseCase;
+            _consultarProdutoRepository = consultarProdutoRepository;
+            _consultarContratanteRepository = consultarContratanteRepository;
+            _context = context;
         }
 
-        public async Task<Contratacao> RealizarContratacao(RealizarContratacaoViewModel realizarContratacaoViewModel, CancellationToken cancellationToken = default)
+        public async Task<Contratacao?> RealizarContratacao(RealizarContratacaoViewModel realizarContratacaoViewModel, CancellationToken cancellationToken = default)
         {
+            //var data = DateTime.Now;
+            //if (data.DiasUteis())
+            //    return default;
 
-            // acredito que isso aqui e um teste
-            if (DiasUteis(DateTime.Parse("2024-05-08")))
-                return null;
+            if (!HorarioContratacao())
+                return default;
 
-            //if (!HorarioContratacao())
-            //    return null;
+            //var teste = await _consultarProdutoBloqueadoUseCase.ConsultarProduto();
 
-            // como nao ha dependencias nessas consultar poderimos fazer a mesma de forma concorrente com Task.WhenAll()
-            //var tasks = new Task<bool>[] 
+            //como nao ha dependencias nessas consultar poderimos fazer a mesma de forma concorrente com Task.WhenAll()
+            //erro A second operation was started on this context instance before a previous operation completed"
+            //var tasks = new Task<bool>[]
             //{
-            //    _consultarProdutoBloqueadoUseCase.ConsultarProduto(realizarContratacaoViewModel.IdProduto),
-            //    _consultarContratanteBloqueadoUseCase.ConsultarContratante(realizarContratacaoViewModel.IdContratante),
-            //    _produtoPorSegmentoUseCase.ValidarProdutoPorSegmento(realizarContratacaoViewModel.IdProduto, realizarContratacaoViewModel.IdContratante, realizarContratacaoViewModel.ValorUnitario)
+            //    ConsultarProdutoPorId(realizarContratacaoViewModel.IdProduto, cancellationToken),
+            //    ConsultarContratantePorId(realizarContratacaoViewModel.IdContratante, cancellationToken)
+            //    ValidarProdutoPorSegmento(realizarContratacaoViewModel.IdProduto, realizarContratacaoViewModel.IdContratante, realizarContratacaoViewModel.ValorUnitario, cancellationToken)
             //};
-            //
+
             //var resultados = await Task.WhenAll(tasks);
 
             //if (resultados.Any(x => !x))
             //    return default;
 
-            if (await _consultarProdutoBloqueadoUseCase.ConsultarProduto(realizarContratacaoViewModel.IdProduto))
-                return null;
+            if (!await ConsultarProdutoPorId(realizarContratacaoViewModel.IdProduto, cancellationToken))
+                return default;
 
-            if (!await _consultarContratanteBloqueadoUseCase.ConsultarContratante(realizarContratacaoViewModel.IdContratante))
-                return null;
+            if (!await ConsultarContratantePorId(realizarContratacaoViewModel.IdContratante, cancellationToken))
+                return default;
 
-            if (!await _produtoPorSegmentoUseCase.ValidarProdutoPorSegmento(realizarContratacaoViewModel.IdProduto, realizarContratacaoViewModel.IdContratante, realizarContratacaoViewModel.ValorUnitario))
-                return null;
+            if (!await ValidarProdutoPorSegmento(realizarContratacaoViewModel.IdProduto, realizarContratacaoViewModel.IdContratante, realizarContratacaoViewModel.ValorUnitario, cancellationToken))
+                return default;
 
             if (ValidarDesconto(realizarContratacaoViewModel))
-                return null;
+                return default;
 
             var contratacao = _mapper.Map<Contratacao>(realizarContratacaoViewModel);
             
@@ -71,32 +73,94 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
             
             return contratacao;
         }
-        // mudar para estatico
-        // simplificar realizarContratacaoViewModel.ValorDesconto > (realizarContratacaoViewModel.Quantidade * realizarContratacaoViewModel.ValorUnitario) 
-        public bool ValidarDesconto(RealizarContratacaoViewModel realizarContratacaoViewModel)
+        public static bool ValidarDesconto(RealizarContratacaoViewModel realizarContratacaoViewModel)
         {
-            var valorTotal = realizarContratacaoViewModel.Quantidade * realizarContratacaoViewModel.ValorUnitario;
-
-            if (realizarContratacaoViewModel.ValorDesconto > valorTotal)
+            if (realizarContratacaoViewModel.ValorDesconto > 
+               (realizarContratacaoViewModel.Quantidade * realizarContratacaoViewModel.ValorUnitario))
                 return true;
 
-            return false;
+            return default;
         }
-        // tornar estatico, pode ser reaproveitado? se sim mover para um metodo de extensao
-        public bool DiasUteis(DateTime data)
-        {
-            return data.DayOfWeek == DayOfWeek.Saturday || data.DayOfWeek == DayOfWeek.Sunday;
-        }
-        // sempre que criar uma variavel mantenha o padrao com var
-        // var horarioAtual
+
         public bool HorarioContratacao()
         {
-            TimeSpan horarioAtual = DateTime.Now.TimeOfDay;
+            var horarioAtual = DateTime.Now.TimeOfDay;
 
-            TimeSpan inicio = new TimeSpan(10, 30, 0);
-            TimeSpan fim = new TimeSpan(00, 59, 0);
+            var inicio = new TimeSpan(01, 30, 0);
+            var fim = new TimeSpan(23, 59, 0);
 
             return horarioAtual >= inicio && horarioAtual <= fim;
         }
+        public async Task<bool> ConsultarProdutoPorId(int id, CancellationToken cancellationToken = default)
+        {
+            var query = await _consultarProdutoRepository.ConsultarPorIdAsync(id, cancellationToken);
+            if (query!.Bloqueado)
+                return default;
+
+            return true;
+        }
+
+        public async Task<bool> ConsultarContratantePorId(int idContrante, CancellationToken cancellationToken = default)
+        {
+            var query = await _consultarContratanteRepository.ConsultarContratanteAsync(idContrante, cancellationToken);
+            if(!query!.Habilitado)
+                return default;
+
+            return true;
+        }
+
+        public async Task<bool> ValidarProdutoPorSegmento(int idProduto, int idContrante, double valorUnitario, CancellationToken cancellationToken)
+        {
+            var valorTotal = TotalOperacaoEspecial(valorUnitario);
+            var tipoSegmento = await ConsultarSegmentoContratante(idContrante, cancellationToken);
+            var tipoProduto = await ConsultarTipoProduto(idProduto);
+            
+            switch(tipoSegmento, tipoProduto)
+            {
+                case ("V", "CRI"):
+                case ("V", "CRA"):
+                case ("V", "DEV"):
+                    return true;
+                case ("A", "LCI"):
+                case ("A", "LCA"):
+                return true;
+                case ("E", "CRI") when valorTotal:
+                case ("E", "CRA") when valorTotal:
+                case ("E", "DEV") when valorTotal:
+                case ("E", "LCI") when valorTotal:
+                case ("E", "LCA") when valorTotal:
+                case ("E", "CDB") when valorTotal:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public async Task<string> ConsultarSegmentoContratante(int idContrante, CancellationToken cancellationToken = default)
+        {
+            var contratante = await _consultarContratanteRepository.ConsultarContratanteAsync(idContrante, cancellationToken);
+
+            return contratante!.Segmento;
+        }
+
+        public async Task<string> ConsultarTipoProduto(int idProduto)
+        {
+            var queryProdutos = _context.Produtos.AsQueryable();
+            var queryTipoProdutos = _context.TipoProdutos.AsQueryable();
+
+            var tipoProduto = queryProdutos
+                .Where(x => x.Id == idProduto)
+                .Join(queryTipoProdutos,
+                    p => p.IdTipoProduto,
+                    t => t.Id,
+                    (p, t) => t.Nome);
+
+            return tipoProduto.FirstOrDefault();
+        }
+        public static bool TotalOperacaoEspecial(double valorTotal)
+        {
+            return valorTotal > 20000.00;
+        }
+
     }
 }

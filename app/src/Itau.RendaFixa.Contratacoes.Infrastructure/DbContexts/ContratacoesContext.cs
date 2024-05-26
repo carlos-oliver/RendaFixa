@@ -1,6 +1,7 @@
 ﻿using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.Internal.TypeMapping;
 
 namespace Itau.RendaFixa.Contratacoes.Infrastructure.DbContexts
 {
@@ -15,25 +16,40 @@ namespace Itau.RendaFixa.Contratacoes.Infrastructure.DbContexts
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TipoProduto>().ToTable("tipos_produtos");
+            modelBuilder.Entity<Produto>().ToTable("produtos");
+            modelBuilder.Entity<Contratante>().ToTable("contratantes");
+            modelBuilder.Entity<Contratacao>().ToTable("contratacoes");
+        }
 
-        public Task AddAsync<T>(T model, CancellationToken cancellationToken = default) where T : class
-            => AddAsync(model, cancellationToken);
+        public async Task AddAsync<T>(T model, CancellationToken cancellationToken = default) where T : class
+            => await base.AddAsync(model, cancellationToken);
+        
+        public async Task AddAsync<T>(IEnumerable<T> models, CancellationToken cancellationToken = default) where T : class
+            => await base.AddRangeAsync(models, cancellationToken);
 
-        public Task AddAsync<T>(IEnumerable<T> models, CancellationToken cancellationToken = default) where T : class
-            => AddRangeAsync(models, cancellationToken);
-
-        public Task UpdateAsync<T>(T model, CancellationToken cancellationToken = default) where T : class
-            => UpdateAsync(model, cancellationToken);
+        public void Update<T>(T model) where T : class
+            => base.Update(model);
 
         public void UpdateRange<T>(IEnumerable<T> models) where T : class
             => UpdateRange(models);
-        public Task DeleteAsync<T>(T model, CancellationToken cancellationToken = default) where T : class
-            => DeleteAsync(model, cancellationToken);
+        public async Task DeleteAsync<T>(T model, CancellationToken cancellationToken = default) where T : class
+            => await DeleteAsync(model, cancellationToken);
 
-        public Task DeleteAsync<T>(IEnumerable<T> models, CancellationToken cancellationToken = default) where T : class
-            => DeleteAsync(models, cancellationToken);
+        public async Task DeleteAsync<T>(IEnumerable<T> models, CancellationToken cancellationToken = default) where T : class
+            => await DeleteAsync(models, cancellationToken);
 
+        public async Task<IEnumerable<T>> GetAllAsync<T>(CancellationToken cancellationToken = default) where T : class
+            => await Set<T>().AsQueryable().ToListAsync(cancellationToken);
+
+        public async Task<T?> GetByIdAsync<T>(object id, CancellationToken cancellationToken = default) where T : class
+            => await Set<T>().FindAsync(new object[] { id }, cancellationToken);
+        
         void IContratacaoDbContext.SaveChanges()
             => SaveChanges();
+
     }
 }

@@ -1,4 +1,5 @@
-using Itau.RendaFixa.Contratacoes.Bussiness.Data;
+using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
+using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Filters;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao;
@@ -8,6 +9,8 @@ using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao;
+using Itau.RendaFixa.Contratacoes.Infrastructure.DbContexts;
+using Itau.RendaFixa.Contratacoes.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -29,13 +32,15 @@ builder.Services.AddScoped<ICriarContratanteUseCase, CriarContratanteUseCase>();
 builder.Services.AddScoped<IHabilitarContratanteUseCase, HabilitarContratanteUseCase>();
 builder.Services.AddScoped<IRealizarContratacaoUseCase, RealizarContratacaoUseCase>();
 builder.Services.AddScoped<IAtualizarContratacaoUseCase, AtualizarContratacaoUseCase>();
-builder.Services.AddScoped<IConsultarProdutoBloqueadoUseCase, ConsultarProdutoBloqueadoUseCase>();
-builder.Services.AddScoped<IConsultarContratanteBloqueadoUseCase, ConsultarContratanteBloqueadoUseCase>();
-builder.Services.AddScoped<IProdutoPorSegmentoUseCase, ProdutoPorSegmentoUseCase>();
+builder.Services.AddScoped<IContratacaoDbContext, ContratacoesContext>();
+builder.Services.AddScoped<IContratacaoRepository, ContratacaoRepository>();
+builder.Services.AddScoped<IConsultarProdutoRepository, ConsultaProdutoRepository>();
+builder.Services.AddScoped<IConsultarContratanteRepository, ConsultaContratanteRepository>();
+builder.Services.AddScoped<IAtualizaContratacaoRepository, AtualizaContratacaoRepository>();
 
 builder.Services.AddControllers(options =>
 {
-    options.Filters.Add<CustomExceptionFilter>(); // Adicionar o filtro de exceção personalizado
+    options.Filters.Add<CustomExceptionFilter>();
 });
 
 // Add services to the container.
