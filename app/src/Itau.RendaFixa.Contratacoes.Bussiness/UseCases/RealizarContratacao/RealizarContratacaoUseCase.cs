@@ -9,27 +9,23 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
     public class RealizarContratacaoUseCase : IRealizarContratacaoUseCase
     {
         private readonly IMapper _mapper;
+        private readonly IContratacaoDbContext _context;
         private readonly IContratacaoRepository _contratacaoRepository;
         private readonly IConsultarProdutoRepository _consultarProdutoRepository;
         private readonly IConsultarContratanteRepository _consultarContratanteRepository;
-        private readonly IContratacaoDbContext _context;
-
-
-
         public RealizarContratacaoUseCase(
-            IContratacaoRepository contratacaoRepository,
             IMapper mapper,
+            IContratacaoDbContext context,
+            IContratacaoRepository contratacaoRepository,
             IConsultarProdutoRepository consultarProdutoRepository,
-            IConsultarContratanteRepository consultarContratanteRepository,
-            IContratacaoDbContext context)
+            IConsultarContratanteRepository consultarContratanteRepository)                                                                                
         {
-            _contratacaoRepository = contratacaoRepository;
             _mapper = mapper;
+            _context = context;
+            _contratacaoRepository = contratacaoRepository;
             _consultarProdutoRepository = consultarProdutoRepository;
             _consultarContratanteRepository = consultarContratanteRepository;
-            _context = context;
         }
-
         public async Task<Contratacao?> RealizarContratacao(RealizarContratacaoViewModel realizarContratacaoViewModel, CancellationToken cancellationToken = default)
         {
             //var data = DateTime.Now;
@@ -81,7 +77,6 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 
             return default;
         }
-
         public bool HorarioContratacao()
         {
             var horarioAtual = DateTime.Now.TimeOfDay;
@@ -99,16 +94,14 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 
             return true;
         }
-
         public async Task<bool> ConsultarContratantePorId(int idContrante, CancellationToken cancellationToken = default)
         {
-            var query = await _consultarContratanteRepository.ConsultarContratanteAsync(idContrante, cancellationToken);
+            var query = await _consultarContratanteRepository.ConsultarAsync(idContrante, cancellationToken);
             if(!query!.Habilitado)
                 return default;
 
             return true;
         }
-
         public async Task<bool> ValidarProdutoPorSegmento(int idProduto, int idContrante, double valorUnitario, CancellationToken cancellationToken)
         {
             var valorTotal = TotalOperacaoEspecial(valorUnitario);
@@ -138,11 +131,10 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 
         public async Task<string> ConsultarSegmentoContratante(int idContrante, CancellationToken cancellationToken = default)
         {
-            var contratante = await _consultarContratanteRepository.ConsultarContratanteAsync(idContrante, cancellationToken);
+            var contratante = await _consultarContratanteRepository.ConsultarAsync(idContrante, cancellationToken);
 
             return contratante!.Segmento;
         }
-
         public async Task<string> ConsultarTipoProduto(int idProduto)
         {
             var queryProdutos = _context.Produtos.AsQueryable();
@@ -161,6 +153,5 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
         {
             return valorTotal > 20000.00;
         }
-
     }
 }

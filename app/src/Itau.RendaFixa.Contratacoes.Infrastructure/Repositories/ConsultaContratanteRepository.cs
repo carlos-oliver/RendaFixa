@@ -12,7 +12,7 @@ namespace Itau.RendaFixa.Contratacoes.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Contratante?> ConsultarContratanteAsync(int idContratante, CancellationToken cancellationToken = default)
+        public async Task<Contratante?> ConsultarAsync(int idContratante, CancellationToken cancellationToken = default)
         {
             return await _dbContext.GetByIdAsync<Contratante>(idContratante, cancellationToken);
         }

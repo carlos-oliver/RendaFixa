@@ -4,6 +4,6 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories
 {
     public interface IAtualizaContratacaoRepository
     {
-        Task<Contratacao> AtualizaContratacaoAsync(Contratacao contratacao, CancellationToken cancellationToken = default);
+        Task<Contratacao> AtualizarAsync(Contratacao contratacao, CancellationToken cancellationToken = default);
     }
 }

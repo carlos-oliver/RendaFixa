@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel;
@@ -17,18 +16,15 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
             _atualizaContratacaoRepository = atualizaContratacaoRepository;
         }
  
-        public async Task AtualizarContratacao(RealizarContratacaoViewModel contratacao, ConsultarContratacaoCommand command, CancellationToken cancellationToken = default)
+        public async Task AtualizarContratacaoAsync(RealizarContratacaoViewModel contratacao, ConsultarContratacaoCommand command, CancellationToken cancellationToken = default)
         {
-            //var contratacaoQuery = await Consultarcontratacao(contratacao.IdContratante, contratacao.IdProduto, DateOnly.FromDateTime(contratacao.DataOperacao), cancellationToken);
             var contratacaoQuery = await ConsultarContratacaoAsync(command);
             // esta logica poderia estar no proprio objeto contratacao
             // contratacao.IncrementarQuantidade(10)
-            contratacaoQuery.Quantidade += contratacao.Quantidade;
-            contratacaoQuery.ValorUnitario += contratacao.ValorUnitario;
+            IncrementarQuantidade(contratacaoQuery, contratacao.Quantidade);
+            IncrementarValorUnitario(contratacaoQuery, contratacao.ValorUnitario);
 
-            await _atualizaContratacaoRepository.AtualizaContratacaoAsync(contratacaoQuery);
-            // SaveChangesAsync retorna o numero de linhas afetadas, voce poderia logar isso para facilitar analise de problemas
-            //await _context.SaveChangesAsync(cancellationToken);
+            await _atualizaContratacaoRepository.AtualizarAsync(contratacaoQuery);
         }
 
         public async Task<Contratacao?> ConsultarContratacaoAsync(ConsultarContratacaoCommand command, CancellationToken cancellationToken = default)
@@ -36,6 +32,12 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
                     && x.IdProduto == command.IdProduto
                     && DateOnly.FromDateTime(x.DataOperacao) == command.DataOperacao)
                 .FirstOrDefault();
+
+        private static void IncrementarQuantidade(Contratacao contratacao, int incremento)
+            => contratacao.Quantidade += incremento;
+        
+        private static void IncrementarValorUnitario(Contratacao contratacao, double incremento)
+            => contratacao.ValorUnitario += incremento;
     }
 
     public class ConsultarContratacaoCommandBuilder

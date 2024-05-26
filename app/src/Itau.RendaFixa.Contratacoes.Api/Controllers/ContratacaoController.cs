@@ -39,7 +39,7 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
             var contratacao = await _atualizarContratacaoUseCase.ConsultarContratacaoAsync(command, cancellationToken);
 
             if (contratacao is not null)
-                await _atualizarContratacaoUseCase.AtualizarContratacao(realizarContratacao, command, cancellationToken);
+                await _atualizarContratacaoUseCase.AtualizarContratacaoAsync(realizarContratacao, command, cancellationToken);
             else
             {
                 var contratacaoViewModel = await _realizarContratacaoUseCase.RealizarContratacao(realizarContratacao, cancellationToken);

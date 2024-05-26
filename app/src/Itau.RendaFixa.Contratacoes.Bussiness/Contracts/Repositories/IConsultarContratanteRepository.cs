@@ -4,6 +4,6 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories
 {
     public interface IConsultarContratanteRepository
     {
-        Task<Contratante?> ConsultarContratanteAsync(int idContratante, CancellationToken cancellationToken = default);
+        Task<Contratante?> ConsultarAsync(int idContratante, CancellationToken cancellationToken = default);
     }
 }

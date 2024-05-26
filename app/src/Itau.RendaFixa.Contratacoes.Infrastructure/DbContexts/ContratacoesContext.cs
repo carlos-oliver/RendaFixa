@@ -1,7 +1,6 @@
 ﻿using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.Internal.TypeMapping;
 
 namespace Itau.RendaFixa.Contratacoes.Infrastructure.DbContexts
 {

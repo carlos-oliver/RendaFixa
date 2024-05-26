@@ -12,7 +12,7 @@ namespace Itau.RendaFixa.Contratacoes.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Contratacao> AtualizaContratacaoAsync(Contratacao contratacao, CancellationToken cancellationToken = default)
+        public async Task<Contratacao> AtualizarAsync(Contratacao contratacao, CancellationToken cancellationToken = default)
         {
             _dbContext.Update(contratacao);
 

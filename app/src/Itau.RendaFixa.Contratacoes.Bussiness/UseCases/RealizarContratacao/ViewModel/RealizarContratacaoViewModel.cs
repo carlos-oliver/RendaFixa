@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using System.ComponentModel.DataAnnotations;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel
 {
@@ -14,5 +15,10 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.Vie
         public double ValorUnitario { get; set; }
         public double ValorDesconto { get; set; }
         public bool PagaIntegralmente { get; set; }
+
+        public void IncrementarQuantidade(int incremento)
+            => Quantidade += incremento;
+        public void IncrementarValorUnitario(double incremento)
+            => ValorUnitario += incremento;   
     }
 }
