@@ -22,14 +22,6 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         public async Task<IActionResult> RealizarContratacaoAsync([FromBody] RealizarContratacaoViewModel realizarContratacao, CancellationToken cancellationToken = default)
         {
 
-            //Command
-            //var command = new ConsultarContratacaoCommand
-            //{
-            //    IdContratante = realizarContratacao.IdContratante,
-            //    IdProduto = realizarContratacao.IdProduto,
-            //    DataOperacao = DateOnly.FromDateTime(realizarContratacao.DataOperacao)
-            //};
-
             var command = new ConsultarContratacaoCommandBuilder()
                 .WithIdContratante(realizarContratacao.IdContratante)
                 .WithIdProduto(realizarContratacao.IdProduto)

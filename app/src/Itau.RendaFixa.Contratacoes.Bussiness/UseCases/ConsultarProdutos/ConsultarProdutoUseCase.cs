@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
+using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
 
@@ -10,28 +11,34 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
     {
         private readonly IContratacaoDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IConsultarProdutoRepository _consultarProdutoRepository;
 
-        public ConsultarProdutoUseCase(IContratacaoDbContext context, IMapper mapper)
+
+        public ConsultarProdutoUseCase(
+            IContratacaoDbContext context, 
+            IMapper mapper,
+            IConsultarProdutoRepository consultarProdutoRepository)
         {
             _context = context;
             _mapper = mapper;
+            _consultarProdutoRepository = consultarProdutoRepository;
         }
 
         public async Task<ApiResponse<IEnumerable<ConsultarProdutoViewModel>>> ObterProdutoAsync(string? nome, int take, CancellationToken cancellationToken = default)
         {
-
-            var query = _context.Produtos.AsQueryable();
+            var query = await _consultarProdutoRepository.ConsultarPorNomeAsync(cancellationToken);
+            //var query = _context.Produtos.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(nome))
                 query = query.Where(x => x.Nome!.ToLower() == nome.ToLower());
 
             var produtos = query.Take(take).ToList();
-            // se utilizar a nomenclatura ViewModel, utilize somente elas, se Dto tbm so Dto
-            var produtosDto = _mapper.Map<IEnumerable<ConsultarProdutoViewModel>>(produtos);
+            //// se utilizar a nomenclatura ViewModel, utilize somente elas, se Dto tbm so Dto
+            ////var produtosDto = _mapper.Map<IEnumerable<ConsultarProdutoViewModel>>(produtos);
 
             var response = new ApiResponse<IEnumerable<ConsultarProdutoViewModel>>
             {
-                Data = new List<ConsultarProdutoViewModel>()
+                Data = _mapper.Map<IEnumerable<ConsultarProdutoViewModel>>(produtos)
             };
 
             return response;
