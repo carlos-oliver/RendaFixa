@@ -5,6 +5,6 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
 {
     public interface IObterTipoProdutoUseCase
     {
-        Task<ApiResponse<List<TipoProdutoViewModel>>> ExecuteAsync(CancellationToken cancellationToken = default);
+        Task<ApiResponse<IEnumerable<TipoProdutoViewModel>>> ExecuteAsync(CancellationToken cancellationToken = default);
     }
 }

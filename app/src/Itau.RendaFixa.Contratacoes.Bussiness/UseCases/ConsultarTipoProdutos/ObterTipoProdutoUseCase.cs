@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
+using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos.ViewModels;
@@ -8,24 +8,22 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos
 {
     public class ObterTipoProdutoUseCase : IObterTipoProdutoUseCase
     {
-        private readonly IContratacaoDbContext _context;
+        private readonly IConsultarTipoProdutoRepository _consultarTipoProdutoRepository;
         private readonly IMapper _mapper;
 
-        public ObterTipoProdutoUseCase(IContratacaoDbContext context, IMapper mapper)
+        public ObterTipoProdutoUseCase(IConsultarTipoProdutoRepository consultarTipoProdutoRepository, IMapper mapper)
         {
-            _context = context;
+            _consultarTipoProdutoRepository = consultarTipoProdutoRepository;
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<List<TipoProdutoViewModel>>> ExecuteAsync(CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<IEnumerable<TipoProdutoViewModel>>> ExecuteAsync(CancellationToken cancellationToken = default)
         {
-            //var tipoProdutos = await _context.TipoProdutos.ToListAsync(cancellationToken);
-            //
-            //var viewModels = _mapper.Map<List<TipoProdutoViewModel>>(tipoProdutos);
+            var tipoProdutos = await _consultarTipoProdutoRepository.ConsultarAsync(cancellationToken);        
 
-            var response = new ApiResponse<List<TipoProdutoViewModel>>
+            var response = new ApiResponse<IEnumerable<TipoProdutoViewModel>>
             {
-                Data = new List<TipoProdutoViewModel>()
+                Data = _mapper.Map<IEnumerable<TipoProdutoViewModel>>(tipoProdutos)
             };
 
             return response;

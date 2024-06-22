@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
@@ -9,17 +8,13 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
 {
     public class ConsultarProdutoUseCase : IConsultarProdutoUseCase
     {
-        private readonly IContratacaoDbContext _context;
         private readonly IMapper _mapper;
         private readonly IConsultarProdutoRepository _consultarProdutoRepository;
 
-
         public ConsultarProdutoUseCase(
-            IContratacaoDbContext context, 
             IMapper mapper,
             IConsultarProdutoRepository consultarProdutoRepository)
         {
-            _context = context;
             _mapper = mapper;
             _consultarProdutoRepository = consultarProdutoRepository;
         }
