@@ -4,10 +4,10 @@ using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 
 namespace Itau.RendaFixa.Contratacoes.Infrastructure.Repositories
 {
-    public class ConsultarTipoProduto : IConsultarTipoProdutoRepository
+    public class ConsultarTipoProdutoRepository : IConsultarTipoProdutoRepository
     {
         private readonly IContratacaoDbContext _dbContext;
-        public ConsultarTipoProduto(IContratacaoDbContext dbContext)
+        public ConsultarTipoProdutoRepository(IContratacaoDbContext dbContext)
         {
             _dbContext = dbContext;
         }
