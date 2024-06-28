@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
+using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante.ViewModels;
-using Microsoft.AspNetCore.JsonPatch;
-
+using System.Web.Http.OData;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante
 {
@@ -10,31 +10,36 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante
     {
         private readonly IContratacaoDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IConsultarContratanteRepository _consultarContratanteRepository;
+        private readonly IHabilitarContratanteRepository _habilitarContratanteRepository;
 
-        public HabilitarContratanteUseCase(IContratacaoDbContext context, IMapper mapper)
+        public HabilitarContratanteUseCase(IContratacaoDbContext context,
+            IConsultarContratanteRepository consultarContratanteRepository,
+            IHabilitarContratanteRepository habilitarContratanteRepository,
+            IMapper mapper)
         {
+            _consultarContratanteRepository = consultarContratanteRepository;
+            _habilitarContratanteRepository = habilitarContratanteRepository;
             _context = context;
             _mapper = mapper;
         }
         // aqui nao entendi o uso de JsonPatchDocument, pode explicar?
-        public async Task<HabilitarContratanteViewModel> HabilitarContratante(JsonPatchDocument<HabilitarContratanteViewModel> patch, string cpf, CancellationToken cancellationToken)
+        // Duvida: Queria atualizar apenas um campo por isso usei, troquei pelo "Delta"
+        public async Task<HabilitarContratanteViewModel?> HabilitarContratante(Delta<HabilitarContratanteViewModel> atualiza, string cpf, CancellationToken cancellationToken = default)
         {
-            var query = _context.Contratantes.AsQueryable();
+            var query = await _consultarContratanteRepository.ConsultarContratantesAsync(cancellationToken);
 
-            //var contrante = await query.Where(x => x.Cpf == cpf).FirstOrDefaultAsync(cancellationToken);
-            //// alterar para contratante is null para melhorar legibilidade
-            //if (contrante == null)
-            //    return null;
-//
-            //var contratanteViewModel = _mapper.Map<HabilitarContratanteViewModel>(contrante);
-//
-            //patch.ApplyTo(contratanteViewModel);
-//
-            //_mapper.Map(contratanteViewModel, contrante);
-//
-            //await _context.SaveChangesAsync();
+            var contratante = query.FirstOrDefault(x => x.Cpf == cpf);
+            if (contratante is null)
+                return default;
 
-            return default;
+            var contratanteViewModel = _mapper.Map<HabilitarContratanteViewModel>(contratante);
+
+            atualiza.Patch(contratanteViewModel);
+            _mapper.Map(contratanteViewModel, contratante);
+            await _habilitarContratanteRepository.HabilitarAsync(contratante, cancellationToken);
+
+           return contratanteViewModel;
         }
     }
 }

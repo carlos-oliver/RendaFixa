@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante.ViewModels;
@@ -23,10 +22,8 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante
 
         public async Task<bool> ValidaNomeExistente(string nome, CancellationToken cancellationToken = default)
         {
-            var contratantes = await _consultarContratanteRepository.ConsultarPorNomeAsync(cancellationToken);
-            return contratantes.Any(x => x.Nome == nome);
-            //return await _context.Contratantes.AnyAsync(x => x.Nome == nome);
-           
+            var contratantes = await _consultarContratanteRepository.ConsultarContratantesAsync(cancellationToken);
+            return contratantes.Any(x => x.Nome == nome);      
         }
 
         public async Task<Contratante?> CriarContratante(CriarContratanteViewModel criarContranteViewModel, CancellationToken cancellationToken = default)
