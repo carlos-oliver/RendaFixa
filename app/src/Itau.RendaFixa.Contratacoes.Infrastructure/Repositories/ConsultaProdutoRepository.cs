@@ -18,7 +18,7 @@ namespace Itau.RendaFixa.Contratacoes.Infrastructure.Repositories
             return await _dbContext.GetByIdAsync<Produto>(id, cancellationToken);
         }
 
-        public async Task<IEnumerable<Produto>> ConsultarPorNomeAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Produto>> ConsultarAsync(CancellationToken cancellationToken = default)
         {
             return await _dbContext.GetAllAsync<Produto>(cancellationToken);
         }

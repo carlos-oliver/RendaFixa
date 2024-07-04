@@ -2,7 +2,6 @@
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante.ViewModels;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante.ViewModels;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Web.Http.OData;
 

@@ -21,7 +21,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
 
         public async Task<ApiResponse<IEnumerable<ConsultarProdutoViewModel>>> ObterProdutoAsync(string? nome, int take, CancellationToken cancellationToken = default)
         {
-            var query = await _consultarProdutoRepository.ConsultarPorNomeAsync(cancellationToken);
+            var query = await _consultarProdutoRepository.ConsultarAsync(cancellationToken);
             //var query = _context.Produtos.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(nome))

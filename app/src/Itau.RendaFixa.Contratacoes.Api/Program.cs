@@ -41,6 +41,7 @@ builder.Services.AddScoped<IConsultarTipoProdutoRepository, ConsultarTipoProduto
 builder.Services.AddScoped<ICriarProdutoRepository, CriarProdutoRepository>();
 builder.Services.AddScoped<ICriarContratanteRepository, CriarContratanteRepository>();
 builder.Services.AddScoped<IHabilitarContratanteRepository, HabilitarContratanteRepository>();
+builder.Services.AddScoped<IAtualizarProdutoRepository, AtualizarProdutoRepository>();
 
 builder.Services.AddControllers(options =>
 {

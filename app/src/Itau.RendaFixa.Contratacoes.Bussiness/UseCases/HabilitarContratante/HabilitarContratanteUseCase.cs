@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante.ViewModels;
 using System.Web.Http.OData;
@@ -8,19 +7,17 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante
 {
     public class HabilitarContratanteUseCase : IHabilitarContratanteUseCase
     {
-        private readonly IContratacaoDbContext _context;
         private readonly IMapper _mapper;
         private readonly IConsultarContratanteRepository _consultarContratanteRepository;
         private readonly IHabilitarContratanteRepository _habilitarContratanteRepository;
 
-        public HabilitarContratanteUseCase(IContratacaoDbContext context,
+        public HabilitarContratanteUseCase(
             IConsultarContratanteRepository consultarContratanteRepository,
             IHabilitarContratanteRepository habilitarContratanteRepository,
             IMapper mapper)
         {
             _consultarContratanteRepository = consultarContratanteRepository;
             _habilitarContratanteRepository = habilitarContratanteRepository;
-            _context = context;
             _mapper = mapper;
         }
         // aqui nao entendi o uso de JsonPatchDocument, pode explicar?
