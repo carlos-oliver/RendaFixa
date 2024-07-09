@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarProduto.ViewModels;
@@ -19,7 +18,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto
 
         public async Task<Produto> CriarProduto(CriarProdutoViewModel criarProdutoViewModel, CancellationToken cancellationToken = default)
         {
-            Produto produto = _mapper.Map<Produto>(criarProdutoViewModel);
+            var produto = _mapper.Map<Produto>(criarProdutoViewModel);
             await _criarProdutoRepository.Criar(produto, cancellationToken);
             return produto;
         }

@@ -41,9 +41,8 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         public async Task<ActionResult<AlterarProdutoViewModel>> AlterarProdutoAsync(Delta<AlterarProdutoViewModel> atualiza, int id, CancellationToken cancellationToken = default)
         {
             var produtoViewModel = await _alterarProdutoUseCase.AlterarNomeProduto(atualiza, id, cancellationToken);
-
-            if (!TryValidateModel(produtoViewModel))
-                return ValidationProblem(ModelState);
+             if (produtoViewModel is null)
+                return NotFound();
 
             return Ok(produtoViewModel); 
         }

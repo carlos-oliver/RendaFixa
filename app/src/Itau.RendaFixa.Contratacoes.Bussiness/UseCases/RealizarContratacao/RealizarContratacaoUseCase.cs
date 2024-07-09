@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
+using Itau.RendaFixa.Contratacoes.Bussiness.Extensions;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel;
 
@@ -13,24 +14,27 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
         private readonly IContratacaoRepository _contratacaoRepository;
         private readonly IConsultarProdutoRepository _consultarProdutoRepository;
         private readonly IConsultarContratanteRepository _consultarContratanteRepository;
+        private readonly IConsultarTipoProdutoRepository _consultarTipoProdutoRepository;
         public RealizarContratacaoUseCase(
             IMapper mapper,
             IContratacaoDbContext context,
             IContratacaoRepository contratacaoRepository,
             IConsultarProdutoRepository consultarProdutoRepository,
-            IConsultarContratanteRepository consultarContratanteRepository)                                                                                
+            IConsultarContratanteRepository consultarContratanteRepository,
+            IConsultarTipoProdutoRepository consultarTipoProdutoRepository)
         {
             _mapper = mapper;
             _context = context;
             _contratacaoRepository = contratacaoRepository;
             _consultarProdutoRepository = consultarProdutoRepository;
             _consultarContratanteRepository = consultarContratanteRepository;
+            _consultarTipoProdutoRepository = consultarTipoProdutoRepository;
         }
         public async Task<Contratacao?> RealizarContratacao(RealizarContratacaoViewModel realizarContratacaoViewModel, CancellationToken cancellationToken = default)
         {
-            //var data = DateTime.Now;
-            //if (data.DiasUteis())
-            //    return default;
+            var data = DateTime.Now;
+            if (data.DiasUteis())
+                return default;
 
             if (!HorarioContratacao())
                 return default;
@@ -135,10 +139,10 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 
             return contratante!.Segmento;
         }
-        public async Task<string> ConsultarTipoProduto(int idProduto)
+        public async Task<string?> ConsultarTipoProduto(int idProduto, CancellationToken cancellationToken = default)
         {
-            var queryProdutos = _context.Produtos.AsQueryable();
-            var queryTipoProdutos = _context.TipoProdutos.AsQueryable();
+            var queryProdutos = await _consultarProdutoRepository.ConsultarAsync(cancellationToken);
+            var queryTipoProdutos = await _consultarTipoProdutoRepository.ConsultarAsync(cancellationToken);
 
             var tipoProduto = queryProdutos
                 .Where(x => x.Id == idProduto)

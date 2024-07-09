@@ -7,20 +7,21 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
 {
     public class AtualizarContratacaoUseCase : IAtualizarContratacaoUseCase
     {
-        private readonly IContratacaoDbContext _context;
         private readonly IAtualizaContratacaoRepository _atualizaContratacaoRepository;
+        private readonly IConsultarContratacaoRepository _consultarContratacaoRepository;
 
-        public AtualizarContratacaoUseCase(IContratacaoDbContext context, IAtualizaContratacaoRepository atualizaContratacaoRepository)
+        public AtualizarContratacaoUseCase(IAtualizaContratacaoRepository atualizaContratacaoRepository, IConsultarContratacaoRepository consultarContratacaoRepository)
         {
-            _context = context;
             _atualizaContratacaoRepository = atualizaContratacaoRepository;
+            _consultarContratacaoRepository = consultarContratacaoRepository;
         }
- 
+
         public async Task AtualizarContratacaoAsync(RealizarContratacaoViewModel contratacao, ConsultarContratacaoCommand command, CancellationToken cancellationToken = default)
         {
             var contratacaoQuery = await ConsultarContratacaoAsync(command);
             // esta logica poderia estar no proprio objeto contratacao
             // contratacao.IncrementarQuantidade(10)
+            // duvida
             IncrementarQuantidade(contratacaoQuery, contratacao.Quantidade);
             IncrementarValorUnitario(contratacaoQuery, contratacao.ValorUnitario);
 
@@ -28,11 +29,14 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
         }
 
         public async Task<Contratacao?> ConsultarContratacaoAsync(ConsultarContratacaoCommand command, CancellationToken cancellationToken = default)
-            => _context.Contratacoes.Where(x => x.IdContratante == command.IdContratante
-                    && x.IdProduto == command.IdProduto
-                    && DateOnly.FromDateTime(x.DataOperacao) == command.DataOperacao)
+        {
+            var contratacoes = await _consultarContratacaoRepository.ConsultarAsync(cancellationToken);
+                return contratacoes 
+                .Where(x => x.IdContratante == command.IdContratante
+            && x.IdProduto == command.IdProduto
+            && DateOnly.FromDateTime(x.DataOperacao) == command.DataOperacao)
                 .FirstOrDefault();
-
+        }
         private static void IncrementarQuantidade(Contratacao contratacao, int incremento)
             => contratacao.Quantidade += incremento;
         
