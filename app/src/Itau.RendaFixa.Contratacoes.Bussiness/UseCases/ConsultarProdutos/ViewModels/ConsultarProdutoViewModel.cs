@@ -1,18 +1,18 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels
 {
     public class ConsultarProdutoViewModel
     {
         [Key]
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
-        [JsonProperty("Id_Tipo_Produto")]
+        [JsonPropertyName("Id_Tipo_Produto")]
         public int IdTipoProduto { get; set; }
-        [JsonProperty("nome")]
+        [JsonPropertyName("nome")]
         public string? Nome { get; set; }
-        [JsonProperty("bloqueado")]
+        [JsonPropertyName("bloqueado")]
         public bool Bloqueado { get; set; }
     }
 }

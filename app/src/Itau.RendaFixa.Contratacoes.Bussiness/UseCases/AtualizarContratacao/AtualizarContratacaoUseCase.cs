@@ -1,5 +1,4 @@
-﻿using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
-using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel;
 

@@ -42,6 +42,7 @@ builder.Services.AddScoped<ICriarProdutoRepository, CriarProdutoRepository>();
 builder.Services.AddScoped<ICriarContratanteRepository, CriarContratanteRepository>();
 builder.Services.AddScoped<IHabilitarContratanteRepository, HabilitarContratanteRepository>();
 builder.Services.AddScoped<IAtualizarProdutoRepository, AtualizarProdutoRepository>();
+builder.Services.AddScoped<IConsultarContratacaoRepository, ConsultarContratacaoRepository>();
 
 builder.Services.AddControllers(options =>
 {
@@ -50,7 +51,6 @@ builder.Services.AddControllers(options =>
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddControllers().AddNewtonsoftJson();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
