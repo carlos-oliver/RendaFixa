@@ -3,9 +3,7 @@ using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto.ViewMode
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarProduto.ViewModels;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using System.Web.Http.OData;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
 {
@@ -38,7 +36,7 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         }
 
         [HttpPatch("produtos")]
-        public async Task<ActionResult<AlterarProdutoViewModel>> AlterarProdutoAsync(Delta<AlterarProdutoViewModel> atualiza, int id, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<AlterarProdutoViewModel>> AlterarProdutoAsync([FromBody] AlterarProdutoViewModel atualiza, int id, CancellationToken cancellationToken = default)
         {
             var produtoViewModel = await _alterarProdutoUseCase.AlterarNomeProduto(atualiza, id, cancellationToken);
              if (produtoViewModel is null)

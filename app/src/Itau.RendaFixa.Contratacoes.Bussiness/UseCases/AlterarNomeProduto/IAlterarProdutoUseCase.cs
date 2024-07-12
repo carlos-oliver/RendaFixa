@@ -1,11 +1,10 @@
-﻿using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto.ViewModels;
-using Microsoft.AspNetCore.JsonPatch;
-using System.Web.Http.OData;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.Models;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto.ViewModels;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto
 {
     public interface IAlterarProdutoUseCase
     {
-        Task<AlterarProdutoViewModel> AlterarNomeProduto(Delta<AlterarProdutoViewModel> atualiza, int id, CancellationToken cancellationToken);
+        Task<Produto?> AlterarNomeProduto(AlterarProdutoViewModel atualiza, int id, CancellationToken cancellationToken);
     }
 }
