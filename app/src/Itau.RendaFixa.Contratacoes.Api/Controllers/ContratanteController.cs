@@ -3,7 +3,6 @@ using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante.ViewModels
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Web.Http.OData;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
 {
@@ -35,12 +34,12 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult<HabilitarContratanteViewModel>> AlterarContratanteAsync(Delta<HabilitarContratanteViewModel> contratante, string cpf, CancellationToken cancellationToken = default) 
+        public async Task<ActionResult<HabilitarContratanteViewModel>> AlterarContratanteAsync([FromBody] HabilitarContratanteViewModel contratante, string cpf, CancellationToken cancellationToken = default) 
         {
             var contratanteViewModel = await _habilitarContratanteUseCase.HabilitarContratante(contratante, cpf, cancellationToken);
 
-            if(!TryValidateModel(contratanteViewModel))
-                return ValidationProblem(ModelState);
+            if (contratanteViewModel is null)
+                return NotFound();
 
             return Ok(contratanteViewModel);
         }

@@ -17,14 +17,13 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.Profiles
             CreateMap<TipoProduto, TipoProdutoViewModel>();
             CreateMap<Produto, ConsultarProdutoViewModel>();
             CreateMap<CriarProdutoViewModel, Produto>();
-            CreateMap<AlterarProdutoViewModel, Produto>();
-            CreateMap<Produto, AlterarProdutoViewModel>();
+            //CreateMap<AlterarProdutoViewModel, Produto>();
+            //CreateMap<Produto, AlterarProdutoViewModel>();
             CreateMap<CriarContratanteViewModel, Contratante>();
-            CreateMap<HabilitarContratanteViewModel, Contratante>();
-            CreateMap<Contratante, HabilitarContratanteViewModel>();
+            //CreateMap<HabilitarContratanteViewModel, Contratante>();
+            //CreateMap<Contratante, HabilitarContratanteViewModel>();
             CreateMap<RealizarContratacaoViewModel, Contratacao>();
-            CreateMap<Contratacao, RealizarContratacaoViewModel>();
-          
+            CreateMap<Contratacao, RealizarContratacaoViewModel>();      
         }
     }
 }

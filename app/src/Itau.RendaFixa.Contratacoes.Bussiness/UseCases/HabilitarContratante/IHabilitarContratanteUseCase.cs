@@ -1,10 +1,10 @@
-﻿using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante.ViewModels;
-using System.Web.Http.OData;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness.Models;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante.ViewModels;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante
 {
     public interface IHabilitarContratanteUseCase
     {
-        Task<HabilitarContratanteViewModel> HabilitarContratante(Delta<HabilitarContratanteViewModel> correcao, string cpf, CancellationToken cancellation = default);
+        Task<Contratante?> HabilitarContratante(HabilitarContratanteViewModel correcao, string cpf, CancellationToken cancellation = default);
     }
 }
