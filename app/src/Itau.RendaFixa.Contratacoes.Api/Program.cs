@@ -14,6 +14,7 @@ using Itau.RendaFixa.Contratacoes.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,13 +45,16 @@ builder.Services.AddScoped<IHabilitarContratanteRepository, HabilitarContratante
 builder.Services.AddScoped<IAtualizarProdutoRepository, AtualizarProdutoRepository>();
 builder.Services.AddScoped<IConsultarContratacaoRepository, ConsultarContratacaoRepository>();
 
+
+// Add services to the container.
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<CustomExceptionFilter>();
+})
+.AddJsonOptions(options => 
+{
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
-
-// Add services to the container.
-builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
