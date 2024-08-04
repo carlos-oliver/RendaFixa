@@ -2,10 +2,11 @@
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness
 {
-    public class DefaultResultViewModel
+    public class DefaultResultViewModel<T>
     {
+        //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("data")]
-        public object? Data { get;}
+        public T? Data { get;}
         [JsonPropertyName("erros")]
         public IEnumerable<Notification>? Erros { get; set; }
 
@@ -13,7 +14,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness
         {
         }
 
-        public DefaultResultViewModel(object? data)
+        public DefaultResultViewModel(T? data)
         {
             Data = data;
         }
@@ -22,7 +23,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness
         {
             Erros = erros;
         }
-        public DefaultResultViewModel(object? data, IEnumerable<Notification>? erros)
+        public DefaultResultViewModel(T? data, IEnumerable<Notification>? erros)
         {
             Data = data;
             Erros = erros;

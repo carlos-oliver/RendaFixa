@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
-using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
+using System.Net;
 
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
@@ -19,7 +19,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
             _consultarProdutoRepository = consultarProdutoRepository;
         }
 
-        public async Task<ApiResponse<IEnumerable<ConsultarProdutoViewModel>>> ObterProdutoAsync(string? nome, int take, CancellationToken cancellationToken = default)
+        public async Task<(HttpStatusCode, DefaultResultViewModel<IEnumerable<ConsultarProdutoViewModel>>)> ObterProdutoAsync(string? nome, int take, CancellationToken cancellationToken = default)
         {
             var query = await _consultarProdutoRepository.ConsultarAsync(cancellationToken);
 
@@ -27,15 +27,11 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos
                 query = query.Where(x => x.Nome!.ToLower() == nome.ToLower());
 
             var produtos = query.Take(take).ToList();
-            //// se utilizar a nomenclatura ViewModel, utilize somente elas, se Dto tbm so Dto
-            ////var produtosDto = _mapper.Map<IEnumerable<ConsultarProdutoViewModel>>(produtos);
+            var produtosViewModel = _mapper.Map<IEnumerable<ConsultarProdutoViewModel>>(produtos);
 
-            var response = new ApiResponse<IEnumerable<ConsultarProdutoViewModel>>
-            {
-                Data = _mapper.Map<IEnumerable<ConsultarProdutoViewModel>>(produtos)
-            };
+            var response = new DefaultResultViewModel<IEnumerable<ConsultarProdutoViewModel>>(produtosViewModel);
 
-            return response;
+            return (HttpStatusCode.OK, response);
         }
     }
 }

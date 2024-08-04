@@ -2,6 +2,7 @@
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarProduto.ViewModels;
+using System.Net;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto
 {
@@ -16,11 +17,22 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto
             _mapper = mapper;
         }
 
-        public async Task<Produto> CriarProduto(CriarProdutoViewModel criarProdutoViewModel, CancellationToken cancellationToken = default)
+        public async Task<(HttpStatusCode, DefaultResultViewModel<Produto>)> CriarProduto(CriarProdutoViewModel criarProdutoViewModel, CancellationToken cancellationToken = default)
         {
-            var produto = _mapper.Map<Produto>(criarProdutoViewModel);
-            await _criarProdutoRepository.Criar(produto, cancellationToken);
-            return produto;
+            try
+            {
+                var produto = _mapper.Map<Produto>(criarProdutoViewModel);
+                var resultado = await _criarProdutoRepository.Criar(produto, cancellationToken);
+                return (HttpStatusCode.Created, new DefaultResultViewModel<Produto>(produto));
+            }
+            catch (Exception ex) 
+            {
+                var erros = new List<Notification>
+                {
+                    new Notification(NotificationLevel.Information, "001","Erro ao criar produto")
+                };
+                return (HttpStatusCode.InternalServerError, new DefaultResultViewModel<Produto>(erros));
+            }
         }
     }
 }

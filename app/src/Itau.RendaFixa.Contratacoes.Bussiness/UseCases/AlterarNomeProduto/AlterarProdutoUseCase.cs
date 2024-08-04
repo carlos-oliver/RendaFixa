@@ -1,4 +1,5 @@
 ﻿using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
+using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto.ViewModels;
 using System.Net;
 
@@ -14,7 +15,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto
             _consultarProdutoRepository = consultarProdutoRepository;
         }
 
-        public async Task<(HttpStatusCode, DefaultResultViewModel)> AlterarNomeProduto(AlterarProdutoViewModel atualiza, int id, CancellationToken cancellationToken = default)
+        public async Task<(HttpStatusCode, DefaultResultViewModel<Produto>)> AlterarNomeProduto(AlterarProdutoViewModel atualiza, int id, CancellationToken cancellationToken = default)
         {
             var query = await _consultarProdutoRepository.ConsultarAsync(cancellationToken);
             //// caso voce nao encontre o produto precisa garantir que o cliente receber um 404
@@ -25,14 +26,14 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto
             {
                 var erros = new List<Notification>
                 {
-                    new Notification(NotificationLevel.Information, "001","Produto Não encontrado")
+                    new Notification(NotificationLevel.Information, "001","Produto não encontrado")
                 };
-                return (HttpStatusCode.NotFound, new DefaultResultViewModel(erros));
+                return (HttpStatusCode.NotFound, new DefaultResultViewModel<Produto>(erros));
             }
 
             produto.Nome = atualiza.Nome;
             await _atualizarProdutoRepository.AtualizarAsync(produto, cancellationToken);
-            return (HttpStatusCode.OK, new DefaultResultViewModel(produto));
+            return (HttpStatusCode.Accepted, new DefaultResultViewModel<Produto>(produto));
         }
     }
 }
