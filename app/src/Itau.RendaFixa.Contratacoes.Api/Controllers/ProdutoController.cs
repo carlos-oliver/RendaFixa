@@ -36,7 +36,6 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         [HttpPost("produtos")]
         [ProducesResponseType(typeof(DefaultResultViewModel<>), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(CriarProdutoViewModel), (int)HttpStatusCode.Created)]
-
         public async Task<IActionResult> CriarProdutoAsync([FromBody] CriarProdutoViewModel criarProduto, CancellationToken cancellationToken = default)
         {
             var (httpStatusCode, produto) = await _criarProduto.CriarProduto(criarProduto, cancellationToken);

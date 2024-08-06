@@ -2,6 +2,7 @@
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante.ViewModels;
+using System.Net;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante
 {
@@ -26,14 +27,25 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarContratante
             return contratantes.Any(x => x.Nome == nome);      
         }
 
-        public async Task<Contratante?> CriarContratante(CriarContratanteViewModel criarContranteViewModel, CancellationToken cancellationToken = default)
+        public async Task<(HttpStatusCode, DefaultResultViewModel<Contratante>)> CriarContratante(CriarContratanteViewModel criarContranteViewModel, CancellationToken cancellationToken = default)
         {
-            if (await ValidaNomeExistente(criarContranteViewModel.Nome))
-                return default;
-            var contratante = _mapper.Map<Contratante>(criarContranteViewModel);
-            await _criarContratanteRepository.Criar(contratante, cancellationToken);
+            try
+            {
+                if (await ValidaNomeExistente(criarContranteViewModel.Nome))
+                    return default;
 
-            return contratante;
+                var contratante = _mapper.Map<Contratante>(criarContranteViewModel);
+                await _criarContratanteRepository.Criar(contratante, cancellationToken);
+                return (HttpStatusCode.Created, new DefaultResultViewModel<Contratante>(contratante));
+            }
+            catch (Exception)
+            {
+                var erros = new List<Notification>
+                {
+                    new Notification(NotificationLevel.Information, "001", "Erro ao criar contratante")
+                };
+                return (HttpStatusCode.InternalServerError, new DefaultResultViewModel<Contratante>(erros));
+            }
         }
     }
 }
