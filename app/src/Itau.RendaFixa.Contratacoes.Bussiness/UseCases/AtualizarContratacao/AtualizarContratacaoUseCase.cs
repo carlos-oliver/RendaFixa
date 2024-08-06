@@ -1,6 +1,7 @@
 ﻿using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel;
+using System.Net;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
 {
@@ -15,7 +16,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
             _consultarContratacaoRepository = consultarContratacaoRepository;
         }
 
-        public async Task AtualizarContratacaoAsync(RealizarContratacaoViewModel contratacao, ConsultarContratacaoCommand command, CancellationToken cancellationToken = default)
+        public async Task<(HttpStatusCode, DefaultResultViewModel<Contratacao>)> AtualizarContratacaoAsync(RealizarContratacaoViewModel contratacao, ConsultarContratacaoCommand command, CancellationToken cancellationToken = default)
         {
             var contratacaoQuery = await ConsultarContratacaoAsync(command);
             // esta logica poderia estar no proprio objeto contratacao
@@ -25,6 +26,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AtualizarContratacao
             IncrementarValorUnitario(contratacaoQuery, contratacao.ValorUnitario);
 
             await _atualizaContratacaoRepository.AtualizarAsync(contratacaoQuery);
+            return (HttpStatusCode.Accepted, new DefaultResultViewModel<Contratacao>(contratacaoQuery));
         }
 
         public async Task<Contratacao?> ConsultarContratacaoAsync(ConsultarContratacaoCommand command, CancellationToken cancellationToken = default)

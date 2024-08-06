@@ -4,6 +4,7 @@ using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Extensions;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel;
+using System.Net;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
 {
@@ -30,14 +31,14 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
             _consultarContratanteRepository = consultarContratanteRepository;
             _consultarTipoProdutoRepository = consultarTipoProdutoRepository;
         }
-        public async Task<Contratacao?> RealizarContratacao(RealizarContratacaoViewModel realizarContratacaoViewModel, CancellationToken cancellationToken = default)
+        public async Task<(HttpStatusCode, DefaultResultViewModel<Contratacao>)> RealizarContratacao(RealizarContratacaoViewModel realizarContratacaoViewModel, CancellationToken cancellationToken = default)
         {
-            var data = DateTime.Now;
-            if (data.DiasUteis())
-                return default;
+            //var data = DateTime.Now;
+            //if (data.DiasUteis())
+            //    return default;
 
-            if (!HorarioContratacao())
-                return default;
+            //if (!HorarioContratacao())
+            //    return default;
 
             //var teste = await _consultarProdutoBloqueadoUseCase.ConsultarProduto();
 
@@ -71,7 +72,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
             
             await _contratacaoRepository.CriarAsync(contratacao, cancellationToken);
             
-            return contratacao;
+            return (HttpStatusCode.Created, new DefaultResultViewModel<Contratacao>(contratacao));
         }
         public static bool ValidarDesconto(RealizarContratacaoViewModel realizarContratacaoViewModel)
         {
