@@ -25,7 +25,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto
                 var resultado = await _criarProdutoRepository.Criar(produto, cancellationToken);
                 return (HttpStatusCode.Created, new DefaultResultViewModel<Produto>(produto));
             }
-            catch (Exception ex) 
+            catch (Exception)
             {
                 var erros = new List<Notification>
                 {

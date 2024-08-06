@@ -1,5 +1,8 @@
-﻿using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
+﻿using Itau.RendaFixa.Contratacoes.Bussiness;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
+using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
@@ -15,14 +18,13 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         }
 
         [HttpGet("tipos_produtos")]
+        [ProducesResponseType(typeof(DefaultResultViewModel<>), (int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(ConsultarProdutoViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> RecuperarTipoProdutoAsync(CancellationToken cancellationToken = default)
         {
-            var result = await _obterTipoProdutoUseCase.ExecuteAsync(cancellationToken);
+            var (httpStatusCode, result) = await _obterTipoProdutoUseCase.ExecuteAsync(cancellationToken);
 
-            if (result.Data is not null && result.Data.Any())
-                return Ok(result);
-
-            return NoContent(); 
+            return StatusCode((int)httpStatusCode, result); 
         }
     }
 }

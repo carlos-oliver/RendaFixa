@@ -1,5 +1,4 @@
 ﻿using Itau.RendaFixa.Contratacoes.Bussiness;
-using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.AlterarNomeProduto.ViewModels;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
@@ -8,7 +7,6 @@ using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarNovoProduto;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.CriarProduto.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Net.Mail;
 
 namespace Itau.RendaFixa.Contratacoes.Api.Controllers
 {
@@ -51,7 +49,7 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         public async Task<ActionResult<AlterarProdutoViewModel>> AlterarProdutoAsync([FromBody] AlterarProdutoViewModel atualiza, int id, CancellationToken cancellationToken = default)
         {
             var (httpStatusCode, produtoViewModel) = await _alterarProdutoUseCase.AlterarNomeProduto(atualiza, id, cancellationToken);
-             return StatusCode((int)httpStatusCode, produtoViewModel); 
+            return StatusCode((int)httpStatusCode, produtoViewModel); 
         }
     }
 }

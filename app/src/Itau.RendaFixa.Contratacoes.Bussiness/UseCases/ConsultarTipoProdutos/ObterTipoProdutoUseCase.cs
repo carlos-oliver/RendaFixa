@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
-using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos.ViewModels;
+using System.Net;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos
 {
@@ -17,16 +17,23 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<IEnumerable<TipoProdutoViewModel>>> ExecuteAsync(CancellationToken cancellationToken = default)
+        public async Task<(HttpStatusCode, DefaultResultViewModel<IEnumerable<TipoProdutoViewModel>>)> ExecuteAsync(CancellationToken cancellationToken = default)
         {
-            var tipoProdutos = await _consultarTipoProdutoRepository.ConsultarAsync(cancellationToken);        
+            var tipoProdutos = await _consultarTipoProdutoRepository.ConsultarAsync(cancellationToken);
 
-            var response = new ApiResponse<IEnumerable<TipoProdutoViewModel>>
+            if (tipoProdutos is null)
             {
-                Data = _mapper.Map<IEnumerable<TipoProdutoViewModel>>(tipoProdutos)
-            };
+                var erros = new List<Notification>
+                {
+                    new Notification(NotificationLevel.Information, "001","Tipo produto não encontrado")
+                };
+                return (HttpStatusCode.NotFound, new DefaultResultViewModel<IEnumerable<TipoProdutoViewModel>>(erros));
+            }
 
-            return response;
+            var tipoProdutoViewModel = _mapper.Map<IEnumerable<TipoProdutoViewModel>>(tipoProdutos);
+            var response = new DefaultResultViewModel<IEnumerable<TipoProdutoViewModel>>(tipoProdutoViewModel);
+
+            return (HttpStatusCode.OK,response);
         }
     }
 }
