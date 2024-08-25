@@ -18,10 +18,21 @@ namespace Itau.RendaFixa.Contratacoes.Infrastructure.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<TipoProduto>().ToTable("tipos_produtos");
-            modelBuilder.Entity<Produto>().ToTable("produtos");
-            modelBuilder.Entity<Contratante>().ToTable("contratantes");
-            modelBuilder.Entity<Contratacao>().ToTable("contratacoes");
+            modelBuilder.Entity<TipoProduto>().ToTable("tipos_produtos")
+                .HasKey(c => c.Id)
+                .HasName("id");
+
+            modelBuilder.Entity<Produto>().ToTable("produtos")
+                .HasKey(c => c.Id)
+                .HasName("id");
+        
+            modelBuilder.Entity<Contratante>().ToTable("contratantes")
+                .HasKey(c => c.Id)
+                .HasName("id");
+
+            modelBuilder.Entity<Contratacao>().ToTable("contratacoes")
+                .HasKey(c => c.Id)
+                .HasName("id");
         }
 
         public async Task AddAsync<T>(T model, CancellationToken cancellationToken = default) where T : class

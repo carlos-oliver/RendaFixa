@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.Models
 {
-    [Table("produtos")]
     public class Produto
     {
-        [Key]
         [Column("id")]
         public int Id { get; set; }
 

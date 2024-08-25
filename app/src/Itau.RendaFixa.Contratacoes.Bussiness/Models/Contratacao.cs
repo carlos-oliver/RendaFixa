@@ -1,13 +1,9 @@
-﻿using NodaTime;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Itau.RendaFixa.Contratacoes.Bussiness.Models
 {
-    [Table("contratacoes")]
     public class Contratacao
     {
-        [Key]
         [Column("id")]
         public int Id { get; set; }
 
