@@ -24,6 +24,7 @@ namespace Itau.RendaFixa.Contratacoes.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(DefaultResultViewModel<>), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(CriarProdutoViewModel), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(CriarProdutoViewModel), (int)HttpStatusCode.Accepted)]
         public async Task<IActionResult> RealizarContratacaoAsync([FromBody] RealizarContratacaoViewModel realizarContratacao, CancellationToken cancellationToken = default)
         {
 
