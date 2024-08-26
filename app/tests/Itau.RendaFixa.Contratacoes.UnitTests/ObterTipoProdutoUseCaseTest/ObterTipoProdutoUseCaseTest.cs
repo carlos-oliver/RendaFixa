@@ -5,7 +5,6 @@ using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarTipoProdutos.ViewModels;
 using Moq;
 using System.Net;
-using System.Threading;
 
 namespace Itau.RendaFixa.Contratacoes.UnitTests.ObterTipoProdutoUseCaseTest
 {

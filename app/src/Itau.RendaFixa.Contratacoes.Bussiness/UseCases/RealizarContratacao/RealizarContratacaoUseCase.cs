@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
-using Itau.RendaFixa.Contratacoes.Bussiness.Extensions;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao.ViewModel;
 using System.Net;
@@ -121,7 +120,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.RealizarContratacao
                     return true;
                 case ("A", "LCI"):
                 case ("A", "LCA"):
-                return true;
+                    return true;
                 case ("E", "CRI") when valorTotal:
                 case ("E", "CRA") when valorTotal:
                 case ("E", "DEV") when valorTotal:
