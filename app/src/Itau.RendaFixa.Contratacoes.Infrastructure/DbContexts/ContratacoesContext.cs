@@ -1,5 +1,6 @@
 ﻿using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.DbContexts;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
+using Itau.RendaFixa.Contratacoes.Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Itau.RendaFixa.Contratacoes.Infrastructure.DbContexts
@@ -22,10 +23,8 @@ namespace Itau.RendaFixa.Contratacoes.Infrastructure.DbContexts
                 .HasKey(c => c.Id)
                 .HasName("id");
 
-            modelBuilder.Entity<Produto>().ToTable("produtos")
-                .HasKey(c => c.Id)
-                .HasName("id");
-        
+            modelBuilder.ApplyConfiguration(new ProdutoConfiguration());
+
             modelBuilder.Entity<Contratante>().ToTable("contratantes")
                 .HasKey(c => c.Id)
                 .HasName("id");

@@ -5,7 +5,6 @@ using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.ConsultarProdutos.ViewModels;
 using Moq;
 using System.Net;
-using System.Threading;
 
 namespace Itau.RendaFixa.Contratacoes.UnitTests.ConsultarProdutosTest
 {
@@ -23,28 +22,29 @@ namespace Itau.RendaFixa.Contratacoes.UnitTests.ConsultarProdutosTest
         }
 
         [Fact]
-        public async Task ConsultarProduto_ShouldBeOk_WhenSuccessFull()
+        public async Task ConsultarProduto_Deve_Retornar_Produto_e_Codigo_http_200()
         {
             //Act
-            var nome = "CDB";
+            var nomeProduto = "CDB";
             var porPagina = 50;
             var consultarProdutoViewModel = new List<ConsultarProdutoViewModel>
             {
-                new ConsultarProdutoViewModel { Id = 1,Nome = nome,Bloqueado = true,IdTipoProduto = 2 }
+                new ConsultarProdutoViewModel { Id = 1,Nome = nomeProduto,Bloqueado = true,IdTipoProduto = 2 }
             };
             var produtos = new List<Produto>
             {
-                new Produto{ Id = 1,Nome = nome,Bloqueado = true,IdTipoProduto = 2 }
+                new Produto{ Id = 1,Nome = nomeProduto,Bloqueado = true,IdTipoProduto = 2 }
             };
 
             _mockConsultarProdutoRepository.Setup(S => S.ConsultarAsync(It.IsAny<CancellationToken>())).ReturnsAsync(produtos);
             _mockMapper.Setup(S => S.Map<IEnumerable<ConsultarProdutoViewModel>>(produtos)).Returns(consultarProdutoViewModel);
             //Arrage
-            var (httpStatusCode, produto) = await _consultarProdutoUseCase.ObterProdutoAsync(nome, porPagina, It.IsAny<CancellationToken>());
+            var (httpStatusCode, produto) = await _consultarProdutoUseCase.ObterProdutoAsync(nomeProduto, porPagina, It.IsAny<CancellationToken>());
 
             //Assert
             Assert.Equal(HttpStatusCode.OK, httpStatusCode);
             Assert.True(produtos.Any());
+            _mockConsultarProdutoRepository.Verify(S => S.ConsultarAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

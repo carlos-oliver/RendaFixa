@@ -1,5 +1,6 @@
 ﻿using Itau.RendaFixa.Contratacoes.Bussiness.Contracts.Repositories;
 using Itau.RendaFixa.Contratacoes.Bussiness.Models;
+using Itau.RendaFixa.Contratacoes.Bussiness.Resources;
 using Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante.ViewModels;
 using System.Net;
 
@@ -28,7 +29,7 @@ namespace Itau.RendaFixa.Contratacoes.Bussiness.UseCases.HabilitarContratante
             {
                 var erros = new List<Notification>
                 {
-                    new Notification(NotificationLevel.Information, "001","Contratante não encontrado")
+                    new Notification(NotificationLevel.Information, "001",ContratacaoResources.Cliente_Nao_Encontrado)
                 };
                 return (HttpStatusCode.NotFound, new DefaultResultViewModel<Contratante>(erros));
             }

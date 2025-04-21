@@ -16,5 +16,20 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.30" />
 
   </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Resources\ContratacaoResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ContratacaoResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\ContratacaoResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ContratacaoResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>
